@@ -1,38 +1,27 @@
 const container = document.getElementById('keychain-container');
-const keys = document.querySelectorAll('.key-item');
+const layers = document.querySelectorAll('.key-layer'); // On prend TOUS les calques (support inclus)
+
 let mouseX = 0, mouseY = 0;
-let currentX = 0, currentY = 0;
+let curX = 0, curY = 0;
 
 document.addEventListener('mousemove', (e) => {
     mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
     mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
 });
 
-function loop() {
-    currentX += (mouseX - currentX) * 0.1;
-    currentY += (mouseY - currentY) * 0.1;
+function animate() {
+    curX += (mouseX - curX) * 0.08;
+    curY += (mouseY - curY) * 0.08;
 
-    // On fait tourner le bloc central
-    if (container) {
-        container.style.transform = `rotateX(${currentY * -15}deg) rotateY(${currentX * 20}deg)`;
-    }
+    layers.forEach((layer, index) => {
+        // Chaque couche (index) bouge un peu plus que la précédente
+        const depth = index * 25; 
+        const moveX = curX * (index * 8); 
+        const moveY = curY * (index * 5);
 
-    // On applique la profondeur à chaque clé SANS les décaler du centre
-    keys.forEach((key, index) => {
-        const factor = index + 1;
-        const z = factor * 20; // Profondeur légère
-        const rY = currentX * (factor * 5); // Balancement
-        key.style.transform = `translateZ(${z}px) rotateY(${rY}deg)`;
+        layer.style.transform = `translateZ(${depth}px) rotateY(${moveX}deg) rotateX(${moveY}deg)`;
     });
 
-    requestAnimationFrame(loop);
+    requestAnimationFrame(animate);
 }
-loop();
-
-// Gestion du clic
-keys.forEach(item => {
-    item.addEventListener('click', () => {
-        const id = item.getAttribute('data-id');
-        if(id) window.location.href = `project.html?id=${id}`;
-    });
-});
+animate();
