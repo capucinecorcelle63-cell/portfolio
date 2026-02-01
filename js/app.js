@@ -2,57 +2,45 @@ const layers = document.querySelectorAll('.key-layer');
 const keyImages = document.querySelectorAll('.key-item img');
 
 keyImages.forEach((img) => {
-    const parentLayer = img.parentElement;
-    const hoveredId = parseInt(parentLayer.getAttribute('data-id'));
+    const parent = img.parentElement;
+    const hoveredId = parseInt(parent.getAttribute('data-id'));
 
     img.addEventListener('mouseenter', () => {
-        // On nettoie les états précédents
-        layers.forEach(l => l.classList.remove('is-active'));
+        // Force la clé survolée à être au premier plan absolu
+        layers.forEach(l => {
+            l.classList.remove('is-active');
+            l.style.zIndex = "10"; 
+        });
         
-        // On active la clé sous la souris
-        parentLayer.classList.add('is-active');
-        parentLayer.style.zIndex = "500"; // Passe devant tout le monde
+        parent.classList.add('is-active');
+        parent.style.zIndex = "100";
 
         layers.forEach((layer) => {
             const layerId = parseInt(layer.getAttribute('data-id'));
-            if (!layerId) return; // Ne touche pas au support
+            if (!layerId) return; // Ignore le support
 
-            const distance = layerId - hoveredId;
+            const diff = layerId - hoveredId;
 
-            if (distance < 0) {
-                // Écartement à gauche (proportionnel à la distance)
-                const angle = -20 + (distance * 2); 
-                layer.style.transform = `rotate(${angle}deg)`;
-            } 
-            else if (distance > 0) {
-                // Écartement à droite (proportionnel à la distance)
-                const angle = 20 + (distance * 2);
-                layer.style.transform = `rotate(${angle}deg)`;
-            } 
-            else {
-                // La clé survolée reste SOUDÉE au support (0 mouvement)
-                layer.style.transform = "rotate(0deg) scale(1.02)";
+            if (diff < 0) {
+                // Clés à gauche : rotation négative
+                // On ajoute un petit décalage X pour l'effet "éventail"
+                layer.style.transform = `rotate(${-25 + (diff * 2)}deg) translateX(${-10}px)`;
+            } else if (diff > 0) {
+                // Clés à droite : rotation positive
+                layer.style.transform = `rotate(${25 + (diff * 2)}deg) translateX(${10}px)`;
+            } else {
+                // LA CLÉ SOUS LA SOURIS : Zéro rotation pour rester sur l'anneau
+                layer.style.transform = "rotate(0deg) translateY(5px)";
             }
         });
     });
 
     img.addEventListener('mouseleave', () => {
         layers.forEach((layer) => {
-            layer.style.transform = "rotate(0deg) scale(1)";
+            layer.style.transform = "rotate(0deg) translateX(0) translateY(0)";
             layer.classList.remove('is-active');
-            
-            // On remet les z-index de base après l'animation
-            setTimeout(() => {
-                if (layer.classList.contains('key-item')) {
-                    layer.style.zIndex = "10";
-                } else {
-                    layer.style.zIndex = "1";
-                }
-            }, 500);
+            // Reset z-index après l'animation pour éviter les sauts visuels
+            setTimeout(() => { layer.style.zIndex = layer.dataset.id ? "10" : "5"; }, 500);
         });
-    });
-
-    img.addEventListener('click', () => {
-        window.location.href = `project.html?id=${hoveredId}`;
     });
 });
