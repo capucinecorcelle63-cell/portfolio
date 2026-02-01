@@ -42,36 +42,39 @@ nav a:hover, .btn-minimal:hover { opacity: 1; }
 
 .keychain-wrapper {
     position: relative;
-    width: 75vh;
-    height: 75vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 80vh; /* Taille pour tes images 2000px */
+    height: 80vh;
 }
 
 .key-layer {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none; /* Empeche le carré vide de bloquer les autres */
-    /* Transition avec rebond (elastic look) */
-    transition: transform 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
-                filter 0.5s ease, 
-                opacity 0.5s ease;
+    pointer-events: none;
+    /* On fixe l'attache en haut au milieu pour la rotation */
+    transform-origin: center 20%; 
+    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .key-layer img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    pointer-events: auto; /* Seuls les pixels de l'image sont interactifs */
+    pointer-events: auto;
     cursor: pointer;
-    user-select: none;
 }
 
-/* Z-INDEX : Les clés sont devant le support */
-.support-layer { z-index: 1; }
-.key-item { z-index: 10; }
+/* Le support ne bouge jamais */
+.support-layer { 
+    z-index: 1; 
+}
+
+/* Les clés sont par-dessus */
+.key-item { 
+    z-index: 10; 
+}
