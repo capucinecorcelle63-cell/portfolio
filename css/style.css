@@ -1,4 +1,4 @@
-:root { --transition: all 0.4s ease-out; }
+:root { --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
 
 body { 
     margin: 0; background: #000; color: #fff; 
@@ -7,54 +7,48 @@ body {
 }
 
 .header { position: fixed; top: 30px; width: 100%; text-align: center; z-index: 100; }
-nav a { color: #fff; text-decoration: none; margin: 0 15px; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
+nav a { color: #fff; text-decoration: none; margin: 0 15px; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; transition: 0.3s; }
+nav a:hover { opacity: 1; }
 
 .hero { 
     width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-    perspective: 1200px; /* Donne de la profondeur */
+    perspective: 2000px; 
 }
 
 .keychain-wrapper { 
     position: relative; 
-    /* On garde le ratio 1366/768 */
-    width: 90vw; 
-    height: calc(90vw * (768 / 1366)); 
-    max-width: 1366px;
-    max-height: 768px;
-    margin: auto;
+    width: 85vh; height: 85vh; /* Parfait pour tes images 2000x2000 */
+    max-width: 90vw; max-height: 90vw;
     transform-style: preserve-3d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     will-change: transform;
 }
 
 .key-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+    position: absolute; top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    pointer-events: none; 
+    display: flex; align-items: center; justify-content: center;
 }
 
-.key-layer img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: contain; /* Empêche la déformation */
-    image-rendering: -webkit-optimize-contrast; /* Améliore la netteté */
-}
-
-/* On sépare un peu les clés en profondeur pour l'effet 3D */
-.key-item[data-id="1"] { transform: translateZ(10px); }
-.key-item[data-id="2"] { transform: translateZ(30px); }
-.key-item[data-id="3"] { transform: translateZ(50px); }
+.key-item { pointer-events: auto; cursor: pointer; }
 
 .key-layer img { 
     width: 100%; height: 100%; 
     object-fit: contain; 
-    image-rendering: -webkit-optimize-contrast; /* Améliore la netteté */
-    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.6));
+    image-rendering: auto;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7));
 }
 
-.key-item:hover { transform: scale(1.05) translateZ(20px); transition: var(--transition); }
+/* Effet de profondeur 3D pour chaque clé */
+.key-item[data-id="1"] { transform: translateZ(20px); }
+.key-item[data-id="2"] { transform: translateZ(40px); }
+.key-item[data-id="3"] { transform: translateZ(60px); }
+.key-item[data-id="4"] { transform: translateZ(80px); }
+.key-item[data-id="5"] { transform: translateZ(100px); }
+
+.key-item:hover { 
+    filter: brightness(1.3);
+    /* On ajoute un petit plus à la profondeur au survol */
+    margin-top: -10px;
+    transition: var(--transition);
+}
