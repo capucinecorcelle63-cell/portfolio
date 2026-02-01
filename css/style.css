@@ -1,57 +1,105 @@
-:root { --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
-
-body { 
-    margin: 0; background: #000; color: #fff; 
-    font-family: sans-serif; overflow: hidden;
-    height: 100vh; display: flex; align-items: center; justify-content: center;
+/* 1. CONFIGURATION GÉNÉRALE */
+:root { 
+    --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
 }
 
-.header { position: fixed; top: 30px; width: 100%; text-align: center; z-index: 100; }
-nav a { color: #fff; text-decoration: none; margin: 0 15px; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; transition: 0.3s; }
-nav a:hover { opacity: 1; }
-
-.hero { 
-    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-    perspective: 2000px; 
+body { 
+    margin: 0; 
+    background: #000; 
+    color: #fff; 
+    font-family: 'Helvetica', sans-serif; 
+    overflow: hidden; /* Bloque le scroll pour l'effet immersif */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.keychain-wrapper { 
-    position: relative; 
-    width: 85vh; height: 85vh; /* Parfait pour tes images 2000x2000 */
-    max-width: 90vw; max-height: 90vw;
-    transform-style: preserve-3d;
-    will-change: transform;
+/* 2. MENU / NAVIGATION */
+.header { 
+    position: fixed; 
+    top: 30px; 
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    z-index: 100; 
 }
 
-.key-layer {
-    position: absolute; top: 0; left: 0; 
-    width: 100%; height: 100%; 
-    pointer-events: none; 
-    display: flex; align-items: center; justify-content: center;
-    /* ... tes autres propriétés ... */
-    transform-origin: center 20%; /* Les clés pivotent depuis le haut, pas le milieu */
-}
+nav a, .btn-minimal { 
+    color: #fff; 
+    text-decoration: none; 
+    margin: 0 20px; 
+    font-size: 0.7rem; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    opacity: 0.6; 
+    transition: 0.3s; 
+    letter-spacing: 0.2em;
 }
 
-.key-item { pointer-events: auto; cursor: pointer; }
+nav a:hover, .btn-minimal:hover { 
+    opacity: 1; 
+}
 
-.key-layer img { 
-    width: 100%; height: 100%; 
-    object-fit: contain; 
-    image-rendering: auto;
+/* 3. ZONE DU TROUSSEAU (HERO) */
+.hero { 
+    width: 100%;
+    height: 100vh;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    perspective: 2000px; /* Profondeur pour l'effet 3D */
+}
+
+.keychain-wrapper { 
+    position: relative; 
+    width: 85vh; /* S'adapte à la hauteur de l'écran */
+    height: 85vh; 
+    max-width: 90vw; /* Sécurité pour les écrans mobiles */
+    max-height: 90vw;
+    margin: auto;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+/* 4. LES CALQUES D'IMAGES */
+.key-layer { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    pointer-events: none; /* Permet de cliquer "à travers" le vide du PNG */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Rotation depuis le haut pour l'effet de balancement */
+    transform-origin: center 25%; 
+}
+
+.key-item { 
+    pointer-events: auto; /* Seule la clé redevient cliquable */
+    cursor: pointer; 
+}
+
+.key-layer img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; /* Respecte les 2000x2000 sans écraser */
     filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7));
+    transition: filter 0.3s ease;
 }
 
-/* Effet de profondeur 3D pour chaque clé */
-.key-item[data-id="1"] { transform: translateZ(20px); }
-.key-item[data-id="2"] { transform: translateZ(40px); }
-.key-item[data-id="3"] { transform: translateZ(60px); }
-.key-item[data-id="4"] { transform: translateZ(80px); }
-.key-item[data-id="5"] { transform: translateZ(100px); }
-
-.key-item:hover { 
-    filter: brightness(1.3);
-    /* On ajoute un petit plus à la profondeur au survol */
-    margin-top: -10px;
-    transition: var(--transition);
+/* 5. EFFETS AU SURVOL (HOVER) */
+/* Note: On utilise filter car le transform est géré par le JavaScript */
+.key-item:hover img { 
+    filter: brightness(1.3) drop-shadow(0 0 20px rgba(255,255,255,0.2));
 }
+
+/* Optionnel : Ajustement manuel de la profondeur si besoin */
+.key-item[data-id="1"] { z-index: 10; }
+.key-item[data-id="2"] { z-index: 9; }
+.key-item[data-id="3"] { z-index: 8; }
+.key-item[data-id="4"] { z-index: 7; }
+.key-item[data-id="5"] { z-index: 6; }
