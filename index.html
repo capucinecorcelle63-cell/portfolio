@@ -1,11 +1,36 @@
-<div id="keychain-container" class="keychain-wrapper">
-    <div class="key-layer support-layer">
-        <img src="assets/support.png">
-    </div>
-    
-    <div class="key-layer key-item" data-id="1"><img src="assets/key1.png"></div>
-    <div class="key-layer key-item" data-id="2"><img src="assets/key2.png"></div>
-    <div class="key-layer key-item" data-id="3"><img src="assets/key3.png"></div>
-    <div class="key-layer key-item" data-id="4"><img src="assets/key4.png"></div>
-    <div class="key-layer key-item" data-id="5"><img src="assets/key5.png"></div>
-</div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Trousseau</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <nav>
+            <a href="index.html">ACCUEIL</a>
+            <a href="about.html">À PROPOS</a>
+            <button id="loginBtn" class="btn-minimal">ADMIN</button>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <div id="keychain-container" class="keychain-wrapper">
+            <div class="key-layer support-layer">
+                <img src="assets/support.png" alt="support">
+            </div>
+            
+            <div class="key-layer key-item" data-id="1"><img src="assets/key1.png" alt="Clé 1"></div>
+            <div class="key-layer key-item" data-id="2"><img src="assets/key2.png" alt="Clé 2"></div>
+            <div class="key-layer key-item" data-id="3"><img src="assets/key3.png" alt="Clé 3"></div>
+            <div class="key-layer key-item" data-id="4"><img src="assets/key4.png" alt="Clé 4"></div>
+            <div class="key-layer key-item" data-id="5"><img src="assets/key5.png" alt="Clé 5"></div>
+        </div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
