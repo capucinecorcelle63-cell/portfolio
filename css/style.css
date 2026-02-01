@@ -1,85 +1,45 @@
-:root { 
-    --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
-}
+:root { --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
 
 body { 
-    margin: 0; 
-    background: #000; 
-    color: #fff; 
-    font-family: 'Helvetica', sans-serif; 
-    overflow: hidden; 
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 0; background: #000; color: #fff; 
+    font-family: sans-serif; overflow: hidden;
+    height: 100vh; width: 100vw;
+    display: flex; align-items: center; justify-content: center;
 }
 
-/* NAVIGATION */
-.header { 
-    position: fixed; 
-    top: 30px; 
-    width: 100%; 
-    display: flex; 
-    justify-content: center; 
-    z-index: 100; 
-}
+.header { position: fixed; top: 30px; width: 100%; text-align: center; z-index: 100; }
+nav a { color: #fff; text-decoration: none; margin: 0 15px; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
 
-nav a, .btn-minimal { 
-    color: #fff; 
-    text-decoration: none; 
-    margin: 0 20px; 
-    font-size: 0.7rem; 
-    background: none; 
-    border: none; 
-    cursor: pointer; 
-    opacity: 0.6; 
-    transition: 0.3s; 
-    letter-spacing: 0.2em;
-}
-
-/* HERO ZONE */
 .hero { 
-    width: 100vw;
-    height: 100vh;
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    perspective: 3000px; /* Augmenté pour éviter l'effet gigantesque */
+    position: relative;
+    width: 100%; height: 100%;
+    perspective: 2000px;
+    display: flex; align-items: center; justify-content: center;
 }
 
+/* LE CONTENEUR : Il doit être petit pour forcer les images à se centrer sur lui */
 .keychain-wrapper { 
     position: relative; 
-    width: 50vh;  /* Taille plus sage pour des images de 2000px */
-    height: 50vh; 
+    width: 500px; /* Taille fixe pour stabiliser le centre */
+    height: 500px;
     transform-style: preserve-3d;
-    will-change: transform;
 }
 
-.key-layer { 
+/* LES CALQUES : Tous empilés exactement au même endroit */
+.key-layer {
     position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
     pointer-events: none; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
+    transform-origin: center center;
 }
 
-.key-item { 
-    pointer-events: auto; 
-    cursor: pointer; 
-}
+.key-item { pointer-events: auto; }
 
+/* L'IMAGE : Elle prend toute la place du wrapper de 500px */
 .key-layer img { 
-    width: 100%; 
-    height: 100%; 
+    width: 100%; height: 100%; 
     object-fit: contain; 
-    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7));
-    transition: filter 0.3s ease;
-}
-
-.key-item:hover img { 
-    filter: brightness(1.3) drop-shadow(0 0 20px rgba(255,255,255,0.2));
+    pointer-events: none;
 }
