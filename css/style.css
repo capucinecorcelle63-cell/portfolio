@@ -1,47 +1,84 @@
-:root { --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
-
-body { 
-    margin: 0; background: #000; color: #fff; 
-    font-family: sans-serif; overflow: hidden;
-    height: 100vh; width: 100vw;
-    display: flex; align-items: center; justify-content: center;
+/* RESET & BASE */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    font-family: 'Helvetica', Arial, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.header { position: fixed; top: 30px; width: 100%; text-align: center; z-index: 100; }
-nav a { color: #fff; text-decoration: none; margin: 0 15px; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
-
-.hero { 
-    width: 100vw; height: 100vh; 
-    display: flex; align-items: center; justify-content: center;
-    perspective: 2000px; 
+/* NAVIGATION */
+.header {
+    position: fixed;
+    top: 40px;
+    width: 100%;
+    z-index: 1000;
+    text-align: center;
 }
 
-.keychain-wrapper { 
-    position: relative; 
-    width: 70vh; height: 70vh; /* Cadre carré au centre */
-    transform-style: preserve-3d;
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
 }
 
+nav a:hover {
+    opacity: 1;
+}
+
+/* ZONE DU TROUSSEAU */
+.hero {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+}
+
+.keychain-wrapper {
+    position: relative;
+    width: 65vh; /* Taille adaptée à tes images 2000px */
+    height: 65vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* LES CALQUES */
 .key-layer {
-    position: absolute; 
-    top: 0; left: 0; 
-    width: 100%; height: 100%; /* Tous les calques font la même taille */
-    display: flex; align-items: center; justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Transition fluide pour l'écartement et le flou */
+    transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), 
+                filter 0.5s ease, 
+                opacity 0.5s ease;
     pointer-events: none;
 }
 
-.key-item { pointer-events: auto; cursor: pointer; }
-
-.key-layer img { 
-    width: 100%; height: 100%; 
-    object-fit: contain; /* Garde tes 2000x2000 intacts */
+/* Seules les clés (pas le support) reçoivent les événements de souris */
+.key-item {
+    pointer-events: auto;
+    cursor: pointer;
 }
 
-.key-item { pointer-events: auto; }
-
-/* L'IMAGE : Elle prend toute la place du wrapper de 500px */
-.key-layer img { 
-    width: 100%; height: 100%; 
-    object-fit: contain; 
-    pointer-events: none;
+.key-layer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
+
+/*
