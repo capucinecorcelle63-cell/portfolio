@@ -1,84 +1,36 @@
-/* RESET & BASE */
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #000;
-    color: #fff;
-    font-family: 'Helvetica', Arial, sans-serif;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+    margin: 0; background: #000; overflow: hidden;
+    height: 100vh; display: flex; align-items: center; justify-content: center;
 }
 
-/* NAVIGATION */
-.header {
-    position: fixed;
-    top: 40px;
-    width: 100%;
-    z-index: 1000;
-    text-align: center;
-}
-
-nav a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 20px;
-    font-size: 11px;
-    letter-spacing: 2px;
-    opacity: 0.5;
-    transition: opacity 0.3s;
-}
-
-nav a:hover {
-    opacity: 1;
-}
-
-/* ZONE DU TROUSSEAU */
 .hero {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 1000px;
+    width: 100%; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
 }
 
 .keychain-wrapper {
     position: relative;
-    width: 65vh; /* Taille adaptée à tes images 2000px */
-    height: 65vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 70vh; height: 70vh;
+    display: flex; align-items: center; justify-content: center;
 }
 
-/* LES CALQUES */
 .key-layer {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Transition fluide pour l'écartement et le flou */
-    transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), 
-                filter 0.5s ease, 
-                opacity 0.5s ease;
-    pointer-events: none;
-}
-
-/* Seules les clés (pas le support) reçoivent les événements de souris */
-.key-item {
-    pointer-events: auto;
-    cursor: pointer;
+    width: 100%; height: 100%;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), filter 0.4s ease;
+    pointer-events: none; /* Important : par défaut le calque ne bloque pas la souris */
 }
 
 .key-layer img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: contain;
 }
 
-/*
+/* GESTION DES COUCHES (Z-INDEX) */
+.support-layer { z-index: 1; } /* Le support est au fond */
+
+.key-item { 
+    z-index: 10; /* Les clés sont devant */
+    pointer-events: auto; /* Seules les clés captent la souris */
+    cursor: pointer;
+}
