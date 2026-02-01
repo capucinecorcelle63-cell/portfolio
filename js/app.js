@@ -27,3 +27,28 @@ function animate() {
 }
 
 animate();
+
+const container = document.getElementById('keychain-container');
+let mouseX = 0, mouseY = 0;
+let currentX = 0, currentY = 0;
+
+document.addEventListener('mousemove', (e) => {
+    // Position de la souris ramenée entre -1 et 1
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+function loop() {
+    // Interpolation fluide (le 0.05 définit la douceur)
+    currentX += (mouseX - currentX) * 0.05;
+    currentY += (mouseY - currentY) * 0.05;
+
+    const rotX = currentY * -15; // Inclinaison haut/bas
+    const rotY = currentX * 25;  // Inclinaison gauche/droite
+
+    if (container) {
+        container.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    }
+    requestAnimationFrame(loop);
+}
+loop();
