@@ -6,33 +6,42 @@ keyImages.forEach((img) => {
     const hoveredId = parseInt(parentLayer.getAttribute('data-id'));
 
     img.addEventListener('mouseenter', () => {
+        // IMPORTANT : Quand on entre, on met la clé survolée tout devant immédiatement
+        parentLayer.style.zIndex = "100";
+
         layers.forEach((layer) => {
             const layerId = parseInt(layer.getAttribute('data-id'));
-
-            if (!layerId) return; // Le support reste fixe
+            if (!layerId) return; // Ignore le support
 
             if (layerId < hoveredId) {
-                // Les clés à gauche pivotent vers la gauche
+                // Écartement horaire (Gauche)
                 layer.style.transform = "rotate(-25deg)";
             } 
             else if (layerId > hoveredId) {
-                // Les clés à droite pivotent vers la droite
+                // Écartement anti-horaire (Droite)
                 layer.style.transform = "rotate(25deg)";
             } 
             else {
-                // L'ÉLÉMENT SURVOLÉ :
-                // On ne touche pas au transform pour qu'il reste accroché
-                layer.style.transform = "rotate(0deg)"; 
-                layer.style.zIndex = "100"; // Passe juste devant
+                // L'élément survolé : AUCUN mouvement, reste soudé au support
+                layer.style.transform = "rotate(0deg)";
             }
         });
     });
 
     img.addEventListener('mouseleave', () => {
         layers.forEach((layer) => {
-            // Remise à zéro totale
+            const layerId = parseInt(layer.getAttribute('data-id'));
+            
+            // Remise à zéro
             layer.style.transform = "rotate(0deg)";
-            layer.style.zIndex = layer.classList.contains('key-item') ? "10" : "1";
+            
+            // On remet le z-index de base (10) après une micro-seconde 
+            // pour ne pas casser la transition
+            setTimeout(() => {
+                if (layer.classList.contains('key-item')) {
+                    layer.style.zIndex = "10";
+                }
+            }, 100);
         });
     });
 
