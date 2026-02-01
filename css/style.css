@@ -18,45 +18,37 @@ nav a, .btn-minimal {
     transition: opacity 0.3s;
 }
 
-nav a:hover, .btn-minimal:hover { opacity: 1; }
-
 .keychain-wrapper {
     position: relative;
     width: 90vh; height: 90vh;
+    pointer-events: none; /* Le conteneur ne bloque rien */
 }
 
 .key-layer {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
-    pointer-events: none; /* Traverse le vide des 2000px */
+    pointer-events: none; /* Les calques invisibles sont "transparents" pour la souris */
     
-    /* PIVOT : Ajuste ce % pour que la rotation soit pile sur l'anneau */
-    transform-origin: center 20.5%; 
-    
-    /* Effet ressort type "Wildy Riftian" */
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    will-change: transform;
+    /* PIVOT : On force le point d'attache en haut au centre */
+    transform-origin: 50% 21%; 
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .key-layer img {
     width: 100%; height: 100%;
     object-fit: contain;
-    pointer-events: auto; /* Capte la souris sur le dessin uniquement */
+    pointer-events: auto; /* SEULE l'image réelle déclenche le survol */
     cursor: pointer;
     -webkit-user-drag: none;
-    transition: filter 0.4s ease;
+    filter: brightness(0.6);
+    transition: filter 0.4s ease, transform 0.4s ease;
 }
 
-/* ÉTAT PAR DÉFAUT : Un peu sombre pour faire ressortir la sélection */
-.key-item img {
-    filter: brightness(0.8) grayscale(0.2);
+/* La clé active s'illumine */
+.key-layer.is-active img {
+    filter: brightness(1.2);
 }
 
-/* ÉTAT SURVOLÉ : La clé devient brillante */
-.key-item.is-active img {
-    filter: brightness(1.2) grayscale(0);
-}
-
-.support-layer { z-index: 1; }
+.support-layer { z-index: 5; } /* Le support est au milieu */
 .key-item { z-index: 10; }
