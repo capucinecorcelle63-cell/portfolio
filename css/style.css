@@ -16,18 +16,27 @@ nav a { color: #fff; text-decoration: none; margin: 0 15px; font-size: 0.7rem; l
 
 .keychain-wrapper { 
     position: relative; 
-    width: 70vh; height: 70vh; /* Taille basée sur l'écran */
+    width: 90vh; /* On utilise la hauteur pour définir la largeur */
+    height: 90vh; 
+    perspective: 2000px;
     transform-style: preserve-3d;
-    will-change: transform;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.key-layer { 
-    position: absolute; top: 0; left: 0; 
-    width: 100%; height: 100%; 
-    pointer-events: none; 
+.key-layer img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; /* Empêche l'image d'être étirée */
+    pointer-events: none;
+    image-rendering: auto;
 }
 
-.key-item { pointer-events: auto; cursor: pointer; }
+/* On sépare un peu les clés en profondeur pour l'effet 3D */
+.key-item[data-id="1"] { transform: translateZ(10px); }
+.key-item[data-id="2"] { transform: translateZ(30px); }
+.key-item[data-id="3"] { transform: translateZ(50px); }
 
 .key-layer img { 
     width: 100%; height: 100%; 
