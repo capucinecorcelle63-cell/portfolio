@@ -1,39 +1,51 @@
 const layers = document.querySelectorAll('.key-layer');
+const images = document.querySelectorAll('.key-item img');
 
-layers.forEach((currentLayer) => {
-    // On n'écoute que les calques qui ont la classe 'key-item'
-    if (!currentLayer.classList.contains('key-item')) return;
+images.forEach((img) => {
+    const parent = img.parentElement;
+    const hoveredId = parseInt(parent.getAttribute('data-id'));
 
-    currentLayer.addEventListener('mouseenter', () => {
-        const hoveredId = parseInt(currentLayer.getAttribute('data-id'));
-
+    img.addEventListener('mouseenter', () => {
         layers.forEach((layer) => {
             const layerId = parseInt(layer.getAttribute('data-id'));
 
-            if (!layerId) return; // On ignore le support
+            // On ignore le support
+            if (!layerId) return;
 
             if (layerId < hoveredId) {
-                // On pousse à gauche
-                layer.style.transform = "translateX(-150px) rotate(-10deg)";
-                layer.style.filter = "brightness(0.5) blur(2px)";
-            } else if (layerId > hoveredId) {
-                // On pousse à droite
-                layer.style.transform = "translateX(150px) rotate(10deg)";
-                layer.style.filter = "brightness(0.5) blur(2px)";
-            } else {
-                // Celle qu'on survole monte un peu
-                layer.style.transform = "scale(1.1) translateY(-20px)";
-                layer.style.filter = "brightness(1.2)";
+                // Écartement vers la gauche avec rotation inverse
+                layer.style.transform = "translateX(-160px) rotate(-12deg) scale(0.85)";
+                layer.style.filter = "brightness(0.4) blur(3px)";
+                layer.style.opacity = "0.6";
+            } 
+            else if (layerId > hoveredId) {
+                // Écartement vers la droite avec rotation
+                layer.style.transform = "translateX(160px) rotate(12deg) scale(0.85)";
+                layer.style.filter = "brightness(0.4) blur(3px)";
+                layer.style.opacity = "0.6";
+            } 
+            else {
+                // Clé sélectionnée : zoom et élévation
+                layer.style.transform = "scale(1.15) translateY(-40px) translateZ(50px)";
+                layer.style.filter = "brightness(1.2) blur(0)";
+                layer.style.opacity = "1";
                 layer.style.zIndex = "100";
             }
         });
     });
 
-    currentLayer.addEventListener('mouseleave', () => {
+    img.addEventListener('mouseleave', () => {
         layers.forEach((layer) => {
-            layer.style.transform = "translateX(0) rotate(0) scale(1)";
+            // Retour à la position initiale
+            layer.style.transform = "translateX(0) rotate(0) scale(1) translateY(0)";
             layer.style.filter = "brightness(1) blur(0)";
-            layer.style.zIndex = layer.getAttribute('data-id') ? "10" : "1";
+            layer.style.opacity = "1";
+            layer.style.zIndex = layer.classList.contains('key-item') ? "10" : "1";
         });
+    });
+
+    // Clic pour redirection
+    img.addEventListener('click', () => {
+        window.location.href = `project.html?id=${hoveredId}`;
     });
 });
