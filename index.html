@@ -9,11 +9,11 @@
 </head>
 <body>
 
-    <header class="header">
-        <nav>
-            <a href="#">PROJETS</a>
-            <a href="#">INFOS</a>
-            <a href="#">CONTACT</a>
+    <header style="position: fixed; top: 20px; width: 100%; text-align: center; z-index: 1000;">
+        <nav style="display: flex; justify-content: center; gap: 30px;">
+            <a href="#" style="color: white; text-decoration: none; font-size: 12px; letter-spacing: 2px;">ACCUEIL</a>
+            <a href="#" style="color: white; text-decoration: none; font-size: 12px; letter-spacing: 2px;">À PROPOS</a>
+            <a href="#" style="color: white; text-decoration: none; font-size: 12px; letter-spacing: 2px;">ADMIN</a>
         </nav>
     </header>
 
@@ -21,17 +21,16 @@
         <div class="keychain-wrapper" id="keychain">
             <div class="key-layer support-layer">
                 <div class="visual">
-                    <img src="https://raw.githubusercontent.com/Arshakir/Porte-cles/main/anneau.png" alt="Ring Support">
+                    <img src="https://raw.githubusercontent.com/Arshakir/Porte-cles/main/anneau.png" alt="Anneau">
                 </div>
             </div>
             </div>
     </div>
 
-    <main class="content-area">
-        <div class="spacer">SCROLL POUR VOIR LA GRILLE</div>
-        <div class="grid-container" id="project-grid">
+    <div class="content-scroll">
+        <div class="grid-container" id="grid">
             </div>
-    </main>
+    </div>
 
     <script src="https://unpkg.com/lenis@1.1.5/dist/lenis.min.js"></script>
     <script src="app.js"></script>
