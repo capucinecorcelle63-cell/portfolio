@@ -44,6 +44,14 @@ nav a:hover, .btn-minimal:hover {
     perspective: 1000px; 
 }
 
+.keychain-wrapper { 
+    position: relative; 
+    width: 80vh; 
+    height: 80vh; 
+    margin: auto;
+    transform-style: preserve-3d;
+}
+
 .key-item img { 
     width: 100%; 
     height: auto; /* Indispensable pour garder les proportions */
