@@ -1,179 +1,169 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/style.css b/style.css
-new file mode 100644
-index 0000000000000000000000000000000000000000..6bd8c7ed2bce706537a4e61f0bbd4823d44206a2
---- /dev/null
-+++ b/style.css
-@@ -0,0 +1,169 @@
-+:root {
-+  color-scheme: dark;
-+  font-family: "Inter", "Helvetica Neue", sans-serif;
-+}
-+
-+* {
-+  box-sizing: border-box;
-+  margin: 0;
-+  padding: 0;
-+}
-+
-+body {
-+  min-height: 100vh;
-+  background: #000;
-+  color: #f7f7f7;
-+  display: flex;
-+  align-items: center;
-+  justify-content: center;
-+}
-+
-+.keychain {
-+  width: min(900px, 90vw);
-+  height: min(700px, 90vh);
-+  position: relative;
-+  display: flex;
-+  align-items: center;
-+  justify-content: center;
-+  flex-direction: column;
-+}
-+
-+.support {
-+  width: min(260px, 50vw);
-+  position: absolute;
-+  top: 6vh;
-+  left: 50%;
-+  transform: translateX(-50%);
-+  filter: drop-shadow(0 8px 20px rgba(255, 255, 255, 0.25));
-+}
-+
-+.keys {
-+  list-style: none;
-+  position: absolute;
-+  top: 20vh;
-+  left: 50%;
-+  transform: translateX(-50%);
-+  display: flex;
-+  align-items: center;
-+  justify-content: center;
-+  gap: 0;
-+}
-+
-+.key {
-+  width: 200px;
-+  text-decoration: none;
-+  color: inherit;
-+  position: relative;
-+  display: flex;
-+  flex-direction: column;
-+  align-items: center;
-+  gap: 12px;
-+  transform: translateX(var(--rest-x)) translateY(var(--rest-y)) rotate(var(--rest-rot));
-+  transition: transform 300ms ease, filter 300ms ease, opacity 300ms ease;
-+  opacity: 0.8;
-+}
-+
-+.key img {
-+  width: 170px;
-+  height: auto;
-+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.6));
-+}
-+
-+.key span {
-+  font-size: 0.95rem;
-+  letter-spacing: 0.08em;
-+  text-transform: uppercase;
-+}
-+
-+.keychain.active .key {
-+  transform: translateX(var(--fan-x)) translateY(var(--fan-y)) rotate(var(--fan-rot));
-+  opacity: 0.7;
-+}
-+
-+.key.is-active {
-+  transform: translateX(var(--fan-x)) translateY(calc(var(--fan-y) + 24px)) rotate(var(--fan-rot));
-+  filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.35));
-+  opacity: 1;
-+}
-+
-+.key.is-active img {
-+  filter: drop-shadow(0 12px 30px rgba(255, 255, 255, 0.4));
-+}
-+
-+.keys li:nth-child(1) .key {
-+  --rest-x: -40px;
-+  --rest-y: 0px;
-+  --rest-rot: -8deg;
-+  --fan-x: -200px;
-+  --fan-y: 0px;
-+  --fan-rot: -20deg;
-+}
-+
-+.keys li:nth-child(2) .key {
-+  --rest-x: -20px;
-+  --rest-y: 10px;
-+  --rest-rot: -4deg;
-+  --fan-x: -90px;
-+  --fan-y: 10px;
-+  --fan-rot: -8deg;
-+}
-+
-+.keys li:nth-child(3) .key {
-+  --rest-x: 0px;
-+  --rest-y: 18px;
-+  --rest-rot: 0deg;
-+  --fan-x: 0px;
-+  --fan-y: 18px;
-+  --fan-rot: 0deg;
-+}
-+
-+.keys li:nth-child(4) .key {
-+  --rest-x: 20px;
-+  --rest-y: 10px;
-+  --rest-rot: 4deg;
-+  --fan-x: 90px;
-+  --fan-y: 10px;
-+  --fan-rot: 8deg;
-+}
-+
-+.keys li:nth-child(5) .key {
-+  --rest-x: 40px;
-+  --rest-y: 0px;
-+  --rest-rot: 8deg;
-+  --fan-x: 200px;
-+  --fan-y: 0px;
-+  --fan-rot: 20deg;
-+}
-+
-+.instructions {
-+  position: absolute;
-+  bottom: 6vh;
-+  text-align: center;
-+  font-size: 0.95rem;
-+  letter-spacing: 0.05em;
-+  color: rgba(255, 255, 255, 0.7);
-+}
-+
-+@media (max-width: 720px) {
-+  .key {
-+    width: 150px;
-+  }
-+
-+  .key img {
-+    width: 130px;
-+  }
-+
-+  .keys li:nth-child(1) .key {
-+    --fan-x: -140px;
-+  }
-+
-+  .keys li:nth-child(5) .key {
-+    --fan-x: 140px;
-+  }
-+}
-+
-+@media (prefers-reduced-motion: reduce) {
-+  .key {
-+    transition: none;
-+  }
-+}
- 
-EOF
-)
+:root {
+  color-scheme: dark;
+  font-family: "Inter", "Helvetica Neue", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: #000;
+  color: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.keychain {
+  width: min(900px, 90vw);
+  height: min(700px, 90vh);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.support {
+  width: min(260px, 50vw);
+  position: absolute;
+  top: 6vh;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 8px 20px rgba(255, 255, 255, 0.25));
+}
+
+.keys {
+  list-style: none;
+  position: absolute;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.key {
+  width: 200px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transform: translateX(var(--rest-x)) translateY(var(--rest-y)) rotate(var(--rest-rot));
+  transition: transform 300ms ease, filter 300ms ease, opacity 300ms ease;
+  opacity: 0.8;
+}
+
+.key img {
+  width: 170px;
+  height: auto;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.6));
+}
+
+.key span {
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.keychain.active .key {
+  transform: translateX(var(--fan-x)) translateY(var(--fan-y)) rotate(var(--fan-rot));
+  opacity: 0.7;
+}
+
+.key.is-active {
+  transform: translateX(var(--fan-x)) translateY(calc(var(--fan-y) + 24px)) rotate(var(--fan-rot));
+  filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.35));
+  opacity: 1;
+}
+
+.key.is-active img {
+  filter: drop-shadow(0 12px 30px rgba(255, 255, 255, 0.4));
+}
+
+.keys li:nth-child(1) .key {
+  --rest-x: -40px;
+  --rest-y: 0px;
+  --rest-rot: -8deg;
+  --fan-x: -200px;
+  --fan-y: 0px;
+  --fan-rot: -20deg;
+}
+
+.keys li:nth-child(2) .key {
+  --rest-x: -20px;
+  --rest-y: 10px;
+  --rest-rot: -4deg;
+  --fan-x: -90px;
+  --fan-y: 10px;
+  --fan-rot: -8deg;
+}
+
+.keys li:nth-child(3) .key {
+  --rest-x: 0px;
+  --rest-y: 18px;
+  --rest-rot: 0deg;
+  --fan-x: 0px;
+  --fan-y: 18px;
+  --fan-rot: 0deg;
+}
+
+.keys li:nth-child(4) .key {
+  --rest-x: 20px;
+  --rest-y: 10px;
+  --rest-rot: 4deg;
+  --fan-x: 90px;
+  --fan-y: 10px;
+  --fan-rot: 8deg;
+}
+
+.keys li:nth-child(5) .key {
+  --rest-x: 40px;
+  --rest-y: 0px;
+  --rest-rot: 8deg;
+  --fan-x: 200px;
+  --fan-y: 0px;
+  --fan-rot: 20deg;
+}
+
+.instructions {
+  position: absolute;
+  bottom: 6vh;
+  text-align: center;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 720px) {
+  .key {
+    width: 150px;
+  }
+
+  .key img {
+    width: 130px;
+  }
+
+  .keys li:nth-child(1) .key {
+    --fan-x: -140px;
+  }
+
+  .keys li:nth-child(5) .key {
+    --fan-x: 140px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .key {
+    transition: none;
+  }
+}
