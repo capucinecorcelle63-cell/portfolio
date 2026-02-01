@@ -1,15 +1,14 @@
-// Liste de tes fichiers d'images
 const projects = [
-    { id: 1, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle1.png" },
-    { id: 2, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle2.png" },
-    { id: 3, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle3.png" },
-    { id: 4, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle4.png" },
-    { id: 5, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle5.png" }
+    { id: 1, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key1.png" },
+    { id: 2, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key2.png" },
+    { id: 3, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key3.png" },
+    { id: 4, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key4.png" },
+    { id: 5, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key5.png" }
 ];
 
 const container = document.getElementById('keychain');
 
-// Génération automatique des clés
+// Génération des clés
 projects.forEach(p => {
     const layer = document.createElement('div');
     layer.className = 'key-layer key-item';
@@ -23,7 +22,7 @@ projects.forEach(p => {
 
 const layers = document.querySelectorAll('.key-item');
 
-// Animation au survol
+// Animation
 layers.forEach(item => {
     const hitbox = item.querySelector('.hitbox');
     const id = parseInt(item.getAttribute('data-id'));
@@ -44,7 +43,7 @@ layers.forEach(item => {
     });
 });
 
-// Reset
+// Reset quand on quitte le porte-clés
 container.addEventListener('mouseleave', () => {
     layers.forEach(l => {
         l.style.transform = `rotate(0deg)`;
