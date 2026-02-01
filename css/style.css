@@ -11,28 +11,30 @@ body {
 nav a { color: #fff; text-decoration: none; margin: 0 15px; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; }
 
 .hero { 
-    position: relative;
-    width: 100%; height: 100%;
-    perspective: 2000px;
+    width: 100vw; height: 100vh; 
     display: flex; align-items: center; justify-content: center;
+    perspective: 2000px; 
 }
 
-/* LE CONTENEUR : Il doit être petit pour forcer les images à se centrer sur lui */
 .keychain-wrapper { 
     position: relative; 
-    width: 500px; /* Taille fixe pour stabiliser le centre */
-    height: 500px;
+    width: 70vh; height: 70vh; /* Cadre carré au centre */
     transform-style: preserve-3d;
 }
 
-/* LES CALQUES : Tous empilés exactement au même endroit */
 .key-layer {
     position: absolute; 
     top: 0; left: 0; 
-    width: 100%; height: 100%; 
-    pointer-events: none; 
+    width: 100%; height: 100%; /* Tous les calques font la même taille */
     display: flex; align-items: center; justify-content: center;
-    transform-origin: center center;
+    pointer-events: none;
+}
+
+.key-item { pointer-events: auto; cursor: pointer; }
+
+.key-layer img { 
+    width: 100%; height: 100%; 
+    object-fit: contain; /* Garde tes 2000x2000 intacts */
 }
 
 .key-item { pointer-events: auto; }
