@@ -1,4 +1,3 @@
-// 1. Tes Projets
 const projects = [
     { id: 1, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle1.png" },
     { id: 2, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle2.png" },
@@ -9,27 +8,25 @@ const projects = [
 const container = document.getElementById('keychain');
 const grid = document.getElementById('grid');
 
-// 2. Création des clés et de la grille
+// Création des éléments
 projects.forEach(p => {
-    // Clés
     const layer = document.createElement('div');
     layer.className = 'key-layer key-item';
     layer.setAttribute('data-id', p.id);
     layer.innerHTML = `
         <div class="hitbox"></div>
-        <div class="visual"><img src="${p.img}"></div>
+        <div class="visual"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/200x400?text=Image+Manquante'"></div>
     `;
     container.appendChild(layer);
 
-    // Grille
     const box = document.createElement('div');
     box.className = 'project-box';
     grid.appendChild(box);
 });
 
-// 3. Animation
 const layers = document.querySelectorAll('.key-item');
 
+// Animation
 layers.forEach(item => {
     const hitbox = item.querySelector('.hitbox');
     const id = parseInt(item.getAttribute('data-id'));
@@ -57,7 +54,7 @@ document.getElementById('keychain').addEventListener('mouseleave', () => {
     });
 });
 
-// 4. Smooth Scroll
+// Scroll fluide
 const lenis = new Lenis();
 function raf(time) {
     lenis.raf(time);
