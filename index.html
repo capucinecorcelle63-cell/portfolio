@@ -1,60 +1,50 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/index.html b/index.html
-new file mode 100644
-index 0000000000000000000000000000000000000000..788f08edfa3e294962a60de4acb4dfada8a5d2c6
---- /dev/null
-+++ b/index.html
-@@ -0,0 +1,50 @@
-+<!DOCTYPE html>
-+<html lang="fr">
-+  <head>
-+    <meta charset="UTF-8" />
-+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-+    <title>Interactive Keychain</title>
-+    <link rel="stylesheet" href="style.css" />
-+  </head>
-+  <body>
-+    <main class="keychain" aria-label="Interactive keychain portfolio">
-+      <img class="support" src="assets/support.png" alt="Anneau du porte-clés" />
-+      <ul class="keys" aria-label="Projects">
-+        <li>
-+          <a class="key" href="project-1.html" data-label="Refonte" data-index="1">
-+            <img src="assets/key1.png" alt="Projet Refonte" />
-+            <span>Refonte UI</span>
-+          </a>
-+        </li>
-+        <li>
-+          <a class="key" href="project-2.html" data-label="Illustration" data-index="2">
-+            <img src="assets/key2.png" alt="Projet Illustration" />
-+            <span>Illustration</span>
-+          </a>
-+        </li>
-+        <li>
-+          <a class="key" href="project-3.html" data-label="Branding" data-index="3">
-+            <img src="assets/key3.png" alt="Projet Branding" />
-+            <span>Branding</span>
-+          </a>
-+        </li>
-+        <li>
-+          <a class="key" href="project-4.html" data-label="Motion" data-index="4">
-+            <img src="assets/key4.png" alt="Projet Motion" />
-+            <span>Motion</span>
-+          </a>
-+        </li>
-+        <li>
-+          <a class="key" href="project-5.html" data-label="Produit" data-index="5">
-+            <img src="assets/key5.png" alt="Projet Produit" />
-+            <span>Produit</span>
-+          </a>
-+        </li>
-+      </ul>
-+      <p class="instructions">
-+        Survole une clé pour ouvrir le trousseau. Clique pour entrer.
-+      </p>
-+    </main>
-+    <script src="app.js"></script>
-+  </body>
-+</html>
- 
-EOF
-)
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Keychain</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="keychain" aria-label="Interactive keychain portfolio">
+      <img class="support" src="assets/support.png" alt="Anneau du porte-clés" />
+      <ul class="keys" aria-label="Projects">
+        <li>
+          <a class="key" href="project-1.html" data-label="Refonte" data-index="1">
+            <img src="assets/key1.png" alt="Projet Refonte" />
+            <span>Refonte UI</span>
+          </a>
+        </li>
+        <li>
+          <a class="key" href="project-2.html" data-label="Illustration" data-index="2">
+            <img src="assets/key2.png" alt="Projet Illustration" />
+            <span>Illustration</span>
+          </a>
+        </li>
+        <li>
+          <a class="key" href="project-3.html" data-label="Branding" data-index="3">
+            <img src="assets/key3.png" alt="Projet Branding" />
+            <span>Branding</span>
+          </a>
+        </li>
+        <li>
+          <a class="key" href="project-4.html" data-label="Motion" data-index="4">
+            <img src="assets/key4.png" alt="Projet Motion" />
+            <span>Motion</span>
+          </a>
+        </li>
+        <li>
+          <a class="key" href="project-5.html" data-label="Produit" data-index="5">
+            <img src="assets/key5.png" alt="Projet Produit" />
+            <span>Produit</span>
+          </a>
+        </li>
+      </ul>
+      <p class="instructions">
+        Survole une clé pour ouvrir le trousseau. Clique pour entrer.
+      </p>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
