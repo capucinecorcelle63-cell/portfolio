@@ -1,36 +1,77 @@
-body {
-    margin: 0; background: #000; overflow: hidden;
-    height: 100vh; display: flex; align-items: center; justify-content: center;
+body, html {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    color: #fff;
+    font-family: 'Helvetica', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
 }
 
+.header {
+    position: fixed;
+    top: 40px;
+    width: 100%;
+    z-index: 2000;
+    text-align: center;
+}
+
+nav a, .btn-minimal {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    opacity: 0.5;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+nav a:hover, .btn-minimal:hover { opacity: 1; }
+
 .hero {
-    width: 100%; height: 100vh;
-    display: flex; align-items: center; justify-content: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .keychain-wrapper {
     position: relative;
-    width: 70vh; height: 70vh;
-    display: flex; align-items: center; justify-content: center;
+    width: 75vh;
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .key-layer {
     position: absolute;
-    width: 100%; height: 100%;
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), filter 0.4s ease;
-    pointer-events: none; /* Important : par défaut le calque ne bloque pas la souris */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Empeche le carré vide de bloquer les autres */
+    /* Transition avec rebond (elastic look) */
+    transition: transform 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
+                filter 0.5s ease, 
+                opacity 0.5s ease;
 }
 
 .key-layer img {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-}
-
-/* GESTION DES COUCHES (Z-INDEX) */
-.support-layer { z-index: 1; } /* Le support est au fond */
-
-.key-item { 
-    z-index: 10; /* Les clés sont devant */
-    pointer-events: auto; /* Seules les clés captent la souris */
+    pointer-events: auto; /* Seuls les pixels de l'image sont interactifs */
     cursor: pointer;
+    user-select: none;
 }
+
+/* Z-INDEX : Les clés sont devant le support */
+.support-layer { z-index: 1; }
+.key-item { z-index: 10; }
