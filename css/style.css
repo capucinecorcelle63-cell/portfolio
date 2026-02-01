@@ -4,8 +4,8 @@ body, html {
     background-color: #000;
     color: white;
     font-family: 'Helvetica', sans-serif;
-    height: 100%;
-    overflow: hidden; /* Empêche le scroll inutile */
+    height: 100vh;
+    overflow: hidden;
 }
 
 .main-nav {
@@ -19,24 +19,20 @@ body, html {
 }
 
 .main-nav a {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.5);
     text-decoration: none;
     font-size: 11px;
     letter-spacing: 3px;
-    transition: color 0.3s;
+    transition: 0.3s;
 }
 
 .main-nav a:hover {
     color: #fff;
 }
 
-/* CONTENEUR DU PORTE-CLÉS */
 .keychain-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,57 +44,41 @@ body, html {
     height: 600px;
 }
 
-/* LES COUCHES (CLÉS) */
 .key-layer {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transform-origin: 50% 21%; /* Pivot au niveau de l'anneau */
-    transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-    pointer-events: none; /* Seule la hitbox capte la souris */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    transform-origin: 50% 21%; /* Pivot crucial au niveau de l'anneau */
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
 }
 
-/* HITBOX INVISIBLE POUR LE SURVOL */
 .hitbox {
     position: absolute;
-    top: 25%;
-    left: 35%;
-    width: 30%;
-    height: 50%;
+    top: 25%; left: 35%;
+    width: 30%; height: 55%;
     pointer-events: auto;
     cursor: pointer;
     z-index: 10;
 }
 
 .visual {
-    width: 100%;
-    height: 100%;
-    filter: brightness(0.4) grayscale(0.5);
+    width: 100%; height: 100%;
+    filter: brightness(0.3) grayscale(0.8);
     transition: filter 0.5s, transform 0.5s;
 }
 
 .visual img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: contain;
 }
 
-/* ÉTAT QUAND UNE CLÉ EST ACTIVE */
-.key-layer.is-active {
-    z-index: 100;
-}
-
+/* État actif */
+.key-layer.is-active { z-index: 500; }
 .key-layer.is-active .visual {
-    filter: brightness(1.2) grayscale(0);
+    filter: brightness(1.1) grayscale(0);
     transform: translateY(15px) scale(1.05);
 }
 
-.support-layer {
-    z-index: 5;
-}
-
-.support-layer .visual {
-    filter: brightness(1);
-}
+.support-layer { z-index: 5; }
+.support-layer .visual { filter: brightness(1); }
