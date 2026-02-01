@@ -44,11 +44,10 @@ nav a:hover, .btn-minimal:hover {
     perspective: 1000px; 
 }
 
-.keychain-wrapper { 
-    position: relative; 
-    width: 600px; /* Ajuste selon la taille de tes PNG */
-    height: 600px; 
-    transform-style: preserve-3d; 
+.key-item img { 
+    width: 100%; 
+    height: auto; /* Indispensable pour garder les proportions */
+    display: block;
 }
 
 .key-layer { 
