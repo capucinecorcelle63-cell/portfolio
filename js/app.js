@@ -6,23 +6,26 @@ keyImages.forEach((img) => {
     const hoveredId = parseInt(parentLayer.getAttribute('data-id'));
 
     img.addEventListener('mouseenter', () => {
-        // IMPORTANT : Quand on entre, on met la clé survolée tout devant immédiatement
-        parentLayer.style.zIndex = "100";
+        // 1. On nettoie les anciennes classes actives
+        layers.forEach(l => l.classList.remove('is-active'));
+        
+        // 2. On met la clé actuelle au premier plan
+        parentLayer.classList.add('is-active');
 
+        // 3. On applique les rotations
         layers.forEach((layer) => {
             const layerId = parseInt(layer.getAttribute('data-id'));
-            if (!layerId) return; // Ignore le support
+
+            if (!layerId) return; // Support fixe
 
             if (layerId < hoveredId) {
-                // Écartement horaire (Gauche)
                 layer.style.transform = "rotate(-25deg)";
             } 
             else if (layerId > hoveredId) {
-                // Écartement anti-horaire (Droite)
                 layer.style.transform = "rotate(25deg)";
             } 
             else {
-                // L'élément survolé : AUCUN mouvement, reste soudé au support
+                // L'élément sous la souris ne bouge pas d'un poil
                 layer.style.transform = "rotate(0deg)";
             }
         });
@@ -30,18 +33,9 @@ keyImages.forEach((img) => {
 
     img.addEventListener('mouseleave', () => {
         layers.forEach((layer) => {
-            const layerId = parseInt(layer.getAttribute('data-id'));
-            
             // Remise à zéro
             layer.style.transform = "rotate(0deg)";
-            
-            // On remet le z-index de base (10) après une micro-seconde 
-            // pour ne pas casser la transition
-            setTimeout(() => {
-                if (layer.classList.contains('key-item')) {
-                    layer.style.zIndex = "10";
-                }
-            }, 100);
+            layer.classList.remove('is-active');
         });
     });
 
