@@ -6,36 +6,49 @@ keyImages.forEach((img) => {
     const hoveredId = parseInt(parentLayer.getAttribute('data-id'));
 
     img.addEventListener('mouseenter', () => {
-        // 1. On nettoie les anciennes classes actives
+        // On nettoie les états précédents
         layers.forEach(l => l.classList.remove('is-active'));
         
-        // 2. On met la clé actuelle au premier plan
+        // On active la clé sous la souris
         parentLayer.classList.add('is-active');
+        parentLayer.style.zIndex = "500"; // Passe devant tout le monde
 
-        // 3. On applique les rotations
         layers.forEach((layer) => {
             const layerId = parseInt(layer.getAttribute('data-id'));
+            if (!layerId) return; // Ne touche pas au support
 
-            if (!layerId) return; // Support fixe
+            const distance = layerId - hoveredId;
 
-            if (layerId < hoveredId) {
-                layer.style.transform = "rotate(-25deg)";
+            if (distance < 0) {
+                // Écartement à gauche (proportionnel à la distance)
+                const angle = -20 + (distance * 2); 
+                layer.style.transform = `rotate(${angle}deg)`;
             } 
-            else if (layerId > hoveredId) {
-                layer.style.transform = "rotate(25deg)";
+            else if (distance > 0) {
+                // Écartement à droite (proportionnel à la distance)
+                const angle = 20 + (distance * 2);
+                layer.style.transform = `rotate(${angle}deg)`;
             } 
             else {
-                // L'élément sous la souris ne bouge pas d'un poil
-                layer.style.transform = "rotate(0deg)";
+                // La clé survolée reste SOUDÉE au support (0 mouvement)
+                layer.style.transform = "rotate(0deg) scale(1.02)";
             }
         });
     });
 
     img.addEventListener('mouseleave', () => {
         layers.forEach((layer) => {
-            // Remise à zéro
-            layer.style.transform = "rotate(0deg)";
+            layer.style.transform = "rotate(0deg) scale(1)";
             layer.classList.remove('is-active');
+            
+            // On remet les z-index de base après l'animation
+            setTimeout(() => {
+                if (layer.classList.contains('key-item')) {
+                    layer.style.zIndex = "10";
+                } else {
+                    layer.style.zIndex = "1";
+                }
+            }, 500);
         });
     });
 
