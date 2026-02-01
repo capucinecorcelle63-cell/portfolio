@@ -1,9 +1,9 @@
 const projects = [
-    { id: 1, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key1.png" },
-    { id: 2, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key2.png" },
-    { id: 3, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key3.png" },
-    { id: 4, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key4.png" },
-    { id: 5, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/key5.png" }
+    { id: 1, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/assets/key1.png" },
+    { id: 2, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/assets/key2.png" },
+    { id: 3, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/assets/key3.png" },
+    { id: 4, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/assets/key4.png" },
+    { id: 5, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/assets/key5.png" }
 ];
 
 const container = document.getElementById('keychain');
@@ -22,7 +22,6 @@ projects.forEach(p => {
 
 const layers = document.querySelectorAll('.key-item');
 
-// Animation
 layers.forEach(item => {
     const hitbox = item.querySelector('.hitbox');
     const id = parseInt(item.getAttribute('data-id'));
@@ -43,7 +42,6 @@ layers.forEach(item => {
     });
 });
 
-// Reset quand on quitte le porte-clés
 container.addEventListener('mouseleave', () => {
     layers.forEach(l => {
         l.style.transform = `rotate(0deg)`;
