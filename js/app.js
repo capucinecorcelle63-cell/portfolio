@@ -1,48 +1,48 @@
-// 1. Tes Données
+// 1. Tes Projets
 const projects = [
-    { id: 1, title: "Projet Un", img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle1.png" },
-    { id: 2, title: "Projet Deux", img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle2.png" },
-    { id: 3, title: "Projet Trois", img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle3.png" },
-    { id: 4, title: "Projet Quatre", img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle4.png" },
-    { id: 5, title: "Projet Cinq", img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle5.png" }
+    { id: 1, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle1.png" },
+    { id: 2, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle2.png" },
+    { id: 3, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle3.png" },
+    { id: 4, img: "https://raw.githubusercontent.com/Arshakir/Porte-cles/main/cle4.png" }
 ];
 
-const wrapper = document.getElementById('keychain');
+const container = document.getElementById('keychain');
+const grid = document.getElementById('grid');
 
-// 2. Injection des clés
-projects.forEach(proj => {
+// 2. Création des clés et de la grille
+projects.forEach(p => {
+    // Clés
     const layer = document.createElement('div');
     layer.className = 'key-layer key-item';
-    layer.setAttribute('data-id', proj.id);
-    
+    layer.setAttribute('data-id', p.id);
     layer.innerHTML = `
         <div class="hitbox"></div>
-        <div class="visual">
-            <img src="${proj.img}" alt="${proj.title}">
-        </div>
+        <div class="visual"><img src="${p.img}"></div>
     `;
-    wrapper.appendChild(layer);
+    container.appendChild(layer);
+
+    // Grille
+    const box = document.createElement('div');
+    box.className = 'project-box';
+    grid.appendChild(box);
 });
 
-// 3. Logique de mouvement
+// 3. Animation
 const layers = document.querySelectorAll('.key-item');
 
-layers.forEach((layer) => {
-    const hitbox = layer.querySelector('.hitbox');
-    const currentId = parseInt(layer.getAttribute('data-id'));
+layers.forEach(item => {
+    const hitbox = item.querySelector('.hitbox');
+    const id = parseInt(item.getAttribute('data-id'));
 
     hitbox.addEventListener('mouseenter', () => {
-        layers.forEach((l) => {
+        layers.forEach(l => {
             const lId = parseInt(l.getAttribute('data-id'));
-            const diff = lId - currentId;
-
+            const diff = lId - id;
             l.classList.remove('is-active');
 
-            if (diff < 0) {
-                l.style.transform = `rotate(${diff * 12 - 25}deg)`;
-            } else if (diff > 0) {
-                l.style.transform = `rotate(${diff * 12 + 25}deg)`;
-            } else {
+            if (diff < 0) l.style.transform = `rotate(${diff * 15 - 20}deg)`;
+            else if (diff > 0) l.style.transform = `rotate(${diff * 15 + 20}deg)`;
+            else {
                 l.classList.add('is-active');
                 l.style.transform = `rotate(0deg)`;
             }
@@ -50,15 +50,14 @@ layers.forEach((layer) => {
     });
 });
 
-// Reset au départ de la souris
-wrapper.addEventListener('mouseleave', () => {
+document.getElementById('keychain').addEventListener('mouseleave', () => {
     layers.forEach(l => {
         l.style.transform = `rotate(0deg)`;
         l.classList.remove('is-active');
     });
 });
 
-// 4. Initialisation Lenis
+// 4. Smooth Scroll
 const lenis = new Lenis();
 function raf(time) {
     lenis.raf(time);
