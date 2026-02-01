@@ -9,33 +9,27 @@ document.addEventListener('mousemove', (e) => {
 });
 
 function loop() {
-    currentX += (mouseX - currentX) * 0.08;
-    currentY += (mouseY - currentY) * 0.08;
+    currentX += (mouseX - currentX) * 0.1;
+    currentY += (mouseY - currentY) * 0.1;
 
+    // On fait tourner le bloc central
     if (container) {
-        // On incline le bloc entier
-        container.style.transform = `rotateX(${currentY * -12}deg) rotateY(${currentX * 15}deg)`;
+        container.style.transform = `rotateX(${currentY * -15}deg) rotateY(${currentX * 20}deg)`;
     }
 
+    // On applique la profondeur à chaque clé SANS les décaler du centre
     keys.forEach((key, index) => {
         const factor = index + 1;
-        // zDistance réduit pour éviter que ça ne devienne trop grand
-        const zDistance = factor * 12; 
-        
-        // C'est ici qu'on crée le balancement indépendant
-        const tiltX = currentX * (factor * 6);
-        const tiltY = currentY * (factor * 3);
-        
-        // On applique les transformations
-        key.style.transform = `translateZ(${zDistance}px) rotateY(${tiltX}deg) rotateX(${tiltY}deg)`;
+        const z = factor * 20; // Profondeur légère
+        const rY = currentX * (factor * 5); // Balancement
+        key.style.transform = `translateZ(${z}px) rotateY(${rY}deg)`;
     });
 
     requestAnimationFrame(loop);
 }
-
 loop();
 
-// Clics vers les projets
+// Gestion du clic
 keys.forEach(item => {
     item.addEventListener('click', () => {
         const id = item.getAttribute('data-id');
