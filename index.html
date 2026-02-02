@@ -1,99 +1,51 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Capucine Corcelle — Archive Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capucine Corcelle — Archive</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <header class="site-header">
         <div class="brand">CAPUCINE CORCELLE — ARCHIVE</div>
-        <nav class="main-nav">
-            <a href="#home">HOME</a>
-            <a href="#about">ABOUT</a>
-            <a href="#contact">CONTACT</a>
+        <nav>
+            <a href="#home">ACCUEIL</a>
+            <a href="#about">À PROPOS</a>
             <a href="#admin">ADMIN</a>
         </nav>
     </header>
 
     <main>
         <section id="home" class="hero">
-            <div class="hero-content">
+            <div class="hero-text">
                 <p class="eyebrow">DOSSIER / KEYCHAIN INDEX</p>
                 <h1>Un portfolio pensé comme une archive vivante.</h1>
-                <p class="lede">Chaque tag du trousseau ouvre un chapitre de mon travail.</p>
             </div>
-
-            <div class="keychain-container">
-                <div class="keychain" id="keychain">
-                    <div class="support"></div>
-                    <button class="key key1" data-target="product-design"><span>PRODUCT DESIGN</span></button>
-                    <button class="key key2" data-target="graphic-design"><span>GRAPHIC DESIGN</span></button>
-                    <button class="key key3" data-target="industrial-design"><span>INDUSTRIAL DESIGN</span></button>
-                    <button class="key key4" data-target="craft-design"><span>CRAFT & DESIGN</span></button>
-                    <button class="key key5" data-target="about"><span>ABOUT ME</span></button>
+            
+            <div class="keychain-wrapper">
+                <img src="https://capucinecorcelle63-cell.github.io/images/keychain.png" alt="Keychain" class="main-keychain">
+                <div class="interactive-nav">
+                    <button onclick="scrollToSection('product-design')">PRODUCT DESIGN</button>
+                    <button onclick="scrollToSection('graphic-design')">GRAPHIC DESIGN</button>
+                    <button onclick="scrollToSection('industrial-design')">INDUSTRIAL DESIGN</button>
+                    <button onclick="scrollToSection('about')">ABOUT ME</button>
                 </div>
             </div>
         </section>
 
-        <section class="category-preview" id="product-design">
-            <div class="section-heading">
-                <h2>PRODUCT DESIGN</h2>
-                <p>Objets, interfaces et prototypes — archives matérialisées.</p>
-            </div>
-            <div class="preview-grid" id="productPreview"></div>
+        <section id="product-design" class="content-sec">
+            <h2>PRODUCT DESIGN</h2>
+            <div id="productPreview" class="grid"></div>
         </section>
 
-        <section class="category-preview" id="graphic-design">
-            <div class="section-heading">
-                <h2>GRAPHIC DESIGN</h2>
-                <p>Identités, affiches et assets éditoriaux.</p>
-            </div>
-            <div class="preview-grid" id="graphicPreview"></div>
-        </section>
-
-        <section class="category-preview" id="industrial-design">
-            <div class="section-heading">
-                <h2>INDUSTRIAL DESIGN</h2>
-            </div>
-            <div class="preview-grid" id="industrialPreview"></div>
-        </section>
-
-        <section class="category-preview" id="craft-design">
-            <div class="section-heading">
-                <h2>CRAFT & DESIGN</h2>
-            </div>
-            <div class="preview-grid" id="craftPreview"></div>
-        </section>
-
-        <section class="featured" id="featured">
-            <div class="section-heading">
-                <h2>FEATURED WORKS</h2>
-            </div>
-            <div class="featured-list" id="featuredWorks"></div>
-        </section>
-
-        <section id="about" class="about">
-            <div class="section-heading"><h2>ABOUT</h2></div>
-            <div class="about-grid" id="aboutGrid">
-                <div><h3>PROFILE</h3><p>Designer pluridisciplinaire passionnée par les systèmes d'archives.</p></div>
-                <div><h3>SOFTWARES</h3><p>Figma, Rhino, Blender, Adobe CC.</p></div>
-            </div>
+        <section id="about" class="content-sec">
+            <h2>ABOUT</h2>
+            <p>Designer pluridisciplinaire passionnée par les systèmes d'archives.</p>
         </section>
     </main>
-
-    <footer class="site-footer">
-        <div class="footer-links">
-            <a href="mailto:hello@capucine.studio">EMAIL</a>
-            <a href="#">INSTAGRAM</a>
-            <a href="#">LINKEDIN</a>
-        </div>
-        <div class="footer-note">ARCHIVE SYSTEM — 2026</div>
-    </footer>
 
     <script src="data.js"></script>
     <script src="app.js"></script>
