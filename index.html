@@ -4,50 +4,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capucine Corcelle — Archive</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --accent: #f3d44d;
+            --bg: #000000;
+            --text: #ffffff;
+            --mono: 'Space Mono', monospace;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Courier New', Courier, monospace; /* Police par défaut si Space Mono ne charge pas */
+            scroll-behavior: smooth;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 30px;
+            position: fixed;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 100;
+            background: linear-gradient(to bottom, black, transparent);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .eyebrow { color: var(--accent); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px; }
+
+        h1 { font-size: 1.8rem; font-weight: normal; max-width: 600px; line-height: 1.4; }
+
+        /* IMAGE DU PORTE CLÉS */
+        .keychain-container {
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .keychain-img {
+            width: 250px;
+            height: auto;
+            display: block;
+        }
+
+        .nav-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: var(--accent);
+            color: black;
+            border-color: var(--accent);
+        }
+
+        section.content {
+            padding: 100px 30px;
+            border-top: 1px solid #222;
+        }
+
+        h2 { color: var(--accent); font-size: 1.2rem; }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #111;
+            padding: 20px;
+            border: 1px solid #222;
+        }
+    </style>
 </head>
 <body>
 
-    <header class="site-header">
-        <div class="brand">CAPUCINE CORCELLE — ARCHIVE</div>
+    <header>
+        <div style="font-weight: bold;">CAPUCINE CORCELLE — ARCHIVE</div>
         <nav>
-            <a href="#home">ACCUEIL</a>
             <a href="#about">À PROPOS</a>
-            <a href="#admin">ADMIN</a>
+            <a href="mailto:votre@mail.com">CONTACT</a>
         </nav>
     </header>
 
     <main>
-        <section id="home" class="hero">
-            <div class="hero-text">
-                <p class="eyebrow">DOSSIER / KEYCHAIN INDEX</p>
-                <h1>Un portfolio pensé comme une archive vivante.</h1>
-            </div>
+        <section class="hero">
+            <p class="eyebrow">DOSSIER / KEYCHAIN INDEX</p>
+            <h1>Un portfolio pensé comme une archive vivante.</h1>
             
-            <div class="keychain-wrapper">
-                <img src="https://capucinecorcelle63-cell.github.io/images/keychain.png" alt="Keychain" class="main-keychain">
-                <div class="interactive-nav">
-                    <button onclick="scrollToSection('product-design')">PRODUCT DESIGN</button>
-                    <button onclick="scrollToSection('graphic-design')">GRAPHIC DESIGN</button>
-                    <button onclick="scrollToSection('industrial-design')">INDUSTRIAL DESIGN</button>
-                    <button onclick="scrollToSection('about')">ABOUT ME</button>
-                </div>
+            <div class="keychain-container">
+                <img src="https://capucinecorcelle63-cell.github.io/images/keychain.png" alt="Keychain" class="keychain-img">
+            </div>
+
+            <div class="nav-buttons">
+                <button onclick="document.getElementById('product').scrollIntoView()">PRODUCT DESIGN</button>
+                <button onclick="document.getElementById('graphic').scrollIntoView()">GRAPHIC DESIGN</button>
+                <button onclick="document.getElementById('industrial').scrollIntoView()">INDUSTRIAL DESIGN</button>
+                <button onclick="document.getElementById('about').scrollIntoView()">ABOUT ME</button>
             </div>
         </section>
 
-        <section id="product-design" class="content-sec">
+        <section id="product" class="content">
             <h2>PRODUCT DESIGN</h2>
-            <div id="productPreview" class="grid"></div>
+            <div class="project-grid">
+                <div class="card">Projet A</div>
+                <div class="card">Projet B</div>
+            </div>
         </section>
 
-        <section id="about" class="content-sec">
+        <section id="graphic" class="content">
+            <h2>GRAPHIC DESIGN</h2>
+            <div class="project-grid">
+                <div class="card">Identité X</div>
+                <div class="card">Affiche Y</div>
+            </div>
+        </section>
+
+        <section id="about" class="content">
             <h2>ABOUT</h2>
-            <p>Designer pluridisciplinaire passionnée par les systèmes d'archives.</p>
+            <p>Designer pluridisciplinaire basée à Lyon.</p>
         </section>
     </main>
 
-    <script src="data.js"></script>
-    <script src="app.js"></script>
 </body>
 </html>
