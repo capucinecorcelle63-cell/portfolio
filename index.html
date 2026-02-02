@@ -27,7 +27,7 @@
             display: flex; justify-content: space-between;
             padding: 30px; position: fixed;
             width: 100%; box-sizing: border-box;
-            z-index: 1000; background: linear-gradient(to bottom, black, transparent);
+            z-index: 1000;
         }
 
         .brand { font-weight: bold; font-size: 0.9rem; }
@@ -38,75 +38,78 @@
         }
         nav a:hover, .admin-trigger:hover { color: var(--accent); }
 
-        /* HERO & KEYCHAIN */
+        /* HERO */
         .hero {
             height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
         }
 
         .eyebrow { color: var(--accent); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px; }
-        h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 40px; }
+        h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 60px; }
 
-        /* KEYCHAIN SYSTEM WITH PNGs */
+        /* KEYCHAIN REALISTIC SYSTEM */
         .keychain-container {
             position: relative; 
-            width: 400px; 
-            height: 400px;
+            width: 500px; /* Plus large pour l'aisance */
+            height: 450px;
             display: flex; 
             justify-content: center;
         }
 
-        .keychain-ring {
-            width: 120px; 
-            height: auto;
+        .support-img {
             position: absolute; 
             top: 0; 
-            z-index: 20;
-            pointer-events: none; /* L'image support ne bloque pas le survol */
+            width: 180px; /* Support plus grand et visible */
+            z-index: 50;
+            pointer-events: none;
         }
 
         .key-tag {
             position: absolute; 
-            top: 45px; /* Aligné sur l'anneau du support.png */
+            top: 40px; /* Ajusté pour que le trou du tag soit sur l'anneau du support */
             left: 50%;
-            width: 100px; /* Taille ajustable selon tes PNG */
-            transform-origin: center 15px; /* Rotation depuis le trou du tag */
+            width: 160px; /* Tags plus grands pour la lisibilité */
+            /* Pivot crucial : situé en haut au centre de l'image (là où est le trou) */
+            transform-origin: center 20px; 
             cursor: pointer;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             background: none;
             border: none;
             padding: 0;
+            outline: none;
         }
 
         .key-tag img {
             width: 100%;
             height: auto;
             display: block;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
         }
 
-        /* Position repos (éventail fermé) */
-        .tag1 { transform: translateX(-50%) rotate(-15deg); z-index: 5; }
-        .tag2 { transform: translateX(-50%) rotate(-8deg); z-index: 4; }
+        /* POSITIONS DE REPOS (Trousseau naturel) */
+        .tag1 { transform: translateX(-50%) rotate(-12deg); z-index: 5; }
+        .tag2 { transform: translateX(-50%) rotate(-6deg); z-index: 4; }
         .tag3 { transform: translateX(-50%) rotate(0deg); z-index: 3; }
-        .tag4 { transform: translateX(-50%) rotate(8deg); z-index: 2; }
-        .tag5 { transform: translateX(-50%) rotate(15deg); z-index: 1; }
+        .tag4 { transform: translateX(-50%) rotate(6deg); z-index: 2; }
+        .tag5 { transform: translateX(-50%) rotate(12deg); z-index: 1; }
 
-        /* HOVER EFFECT (Éclatement - Reprend la logique de ton code favori) */
-        .keychain-container:hover .tag1 { transform: translateX(-160%) rotate(-35deg); }
-        .keychain-container:hover .tag2 { transform: translateX(-100%) rotate(-18deg); }
-        .keychain-container:hover .tag3 { transform: translateX(-50%) translateY(30px); }
-        .keychain-container:hover .tag4 { transform: translateX(0%) rotate(18deg); }
-        .keychain-container:hover .tag5 { transform: translateX(60%) rotate(35deg); }
+        /* EFFET ÉVENTAIL RÉALISTE AU SURVOL */
+        /* On utilise principalement la rotation pour qu'ils pivotent autour de l'anneau */
+        .keychain-container:hover .tag1 { transform: translateX(-110%) rotate(-45deg); }
+        .keychain-container:hover .tag2 { transform: translateX(-80%) rotate(-25deg); }
+        .keychain-container:hover .tag3 { transform: translateX(-50%) translateY(15px); }
+        .keychain-container:hover .tag4 { transform: translateX(-20%) rotate(25deg); }
+        .keychain-container:hover .tag5 { transform: translateX(10%) rotate(45deg); }
 
-        /* Zoom sur le tag précisément survolé */
-        .key-tag:hover, .key-tag:focus { 
+        /* MISE EN AVANT DU TAG SURVOLÉ */
+        .key-tag:hover { 
             z-index: 100 !important; 
-            scale: 1.2;
-            outline: none;
+            scale: 1.1;
+            filter: brightness(1.1);
         }
 
         /* SECTIONS */
-        section.content { padding: 100px 50px; border-top: 1px solid #111; min-height: 80vh; }
+        section.content { padding: 100px 50px; border-top: 1px solid #111; min-height: 100vh; }
         h2 { color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px; }
         
         /* ADMIN PANEL */
@@ -140,7 +143,7 @@
             <h1>capucine's portfolio</h1>
             
             <div class="keychain-container">
-                <img src="assets/support.png" class="keychain-ring" alt="Ring Support">
+                <img src="assets/support.png" class="support-img" alt="Ring Support">
                 
                 <button class="key-tag tag1" onclick="scrollToSec('product')">
                     <img src="assets/key1.png" alt="Product Design">
@@ -160,10 +163,10 @@
             </div>
         </section>
 
-        <section id="product" class="content"><h2>PRODUCT DESIGN</h2><div class="grid"></div></section>
-        <section id="graphic" class="content"><h2>GRAPHIC DESIGN</h2><div class="grid"></div></section>
-        <section id="industrial" class="content"><h2>INDUSTRIAL DESIGN</h2><div class="grid"></div></section>
-        <section id="craft" class="content"><h2>CRAFT & DESIGN</h2><div class="grid"></div></section>
+        <section id="product" class="content"><h2>PRODUCT DESIGN</h2></section>
+        <section id="graphic" class="content"><h2>GRAPHIC DESIGN</h2></section>
+        <section id="industrial" class="content"><h2>INDUSTRIAL DESIGN</h2></section>
+        <section id="craft" class="content"><h2>CRAFT & DESIGN</h2></section>
         <section id="about" class="content"><h2>ABOUT</h2><p>Designer based in Lyon.</p></section>
     </main>
 
@@ -181,25 +184,17 @@
     </div>
 
     <script>
-        // Prechargement des assets
-        const assets = ['support.png', 'key1.png', 'key2.png', 'key3.png', 'key4.png', 'key5.png'];
-        assets.forEach(file => { const img = new Image(); img.src = 'assets/' + file; });
-
         function scrollToSec(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
-
         function openAdmin() { document.getElementById('adminPanel').classList.add('admin-open'); }
         function closeAdmin() { document.getElementById('adminPanel').classList.remove('admin-open'); }
-
         function checkAdmin() {
             const pass = document.getElementById('adminPass').value;
             if(pass === "NUGGETS4LIFE") {
                 document.getElementById('adminTools').style.display = 'block';
-                alert("Access Granted. Welcome Capucine.");
-            } else {
-                alert("Wrong password.");
-            }
+                alert("Access Granted.");
+            } else { alert("Wrong password."); }
         }
     </script>
 </body>
