@@ -1,117 +1,48 @@
-const data = window.PORTFOLIO_DATA;
+document.addEventListener("DOMContentLoaded", () => {
+    const data = window.PORTFOLIO_DATA;
 
-const previewMap = {
-  product: document.getElementById("productPreview"),
-  graphic: document.getElementById("graphicPreview"),
-  industrial: document.getElementById("industrialPreview"),
-  craft: document.getElementById("craftPreview"),
-};
+    // 1. Remplissage des Previews par Catégorie
+    const categories = ['product', 'graphic', 'industrial', 'craft'];
+    categories.forEach(cat => {
+        const container = document.getElementById(`${cat}Preview`);
+        if (container && data.previews[cat]) {
+            data.previews[cat].forEach(item => {
+                const card = document.createElement("div");
+                card.className = "preview-card";
+                card.innerHTML = `
+                    <span>${item.tag}</span>
+                    <h3>${item.title}</h3>
+                `;
+                container.appendChild(card);
+            });
+        }
+    });
 
-const featuredContainer = document.getElementById("featuredWorks");
-const projectGallery = document.getElementById("projectGallery");
-
-const createPreviewCard = (item) => {
-  const card = document.createElement("div");
-  card.className = "preview-card";
-  card.innerHTML = `
-    <div>
-      <h3>${item.title}</h3>
-      <p>Archive card preview.</p>
-    </div>
-    <span>${item.tag}</span>
-  `;
-  return card;
-};
-
-const createGalleryTile = (label) => {
-  const tile = document.createElement("div");
-  tile.className = "gallery-tile";
-  tile.innerHTML = `<span class="visually-hidden">${label}</span>`;
-  return tile;
-};
-
-Object.entries(previewMap).forEach(([key, container]) => {
-  if (!container) return;
-  data.previews[key].forEach((item) => {
-    container.appendChild(createPreviewCard(item));
-  });
-});
-
-data.featured.forEach((item) => {
-  const card = document.createElement("article");
-  card.className = "featured-card";
-  card.innerHTML = `
-    <div class="featured-header">
-      <span class="eyebrow">FEATURED WORK ${item.number}</span>
-      <h3>${item.title}</h3>
-      <div class="project-meta">${item.year}</div>
-    </div>
-    <ul>
-      ${item.skills.map((skill) => `<li>${skill}</li>`).join("")}
-    </ul>
-    <p>${item.description}</p>
-    <a class="cta" href="#project-detail">VIEW PROJECT -></a>
-    <div class="featured-gallery">
-      ${data.gallery.map(() => `<div class="gallery-tile"></div>`).join("")}
-    </div>
-  `;
-  featuredContainer.appendChild(card);
-});
-
-data.gallery.forEach((label) => {
-  projectGallery.appendChild(createGalleryTile(label));
-});
-
-const keychain = document.getElementById("keychain");
-const keys = Array.from(keychain.querySelectorAll(".key"));
-
-keys.forEach((key) => {
-  const baseTransform = window.getComputedStyle(key).transform;
-  key.dataset.baseTransform = baseTransform === "none" ? "" : baseTransform;
-});
-
-const resetActive = () => {
-  keychain.classList.remove("active");
-  keys.forEach((key) => key.classList.remove("active"));
-};
-
-const setActive = (activeKey) => {
-  keychain.classList.add("active");
-  keys.forEach((key, index) => {
-    const offset = key === activeKey ? 30 : -(index + 1) * 12;
-    key.style.transform = `${key.dataset.baseTransform} translateX(${offset}px)`;
-    key.classList.toggle("active", key === activeKey);
-  });
-};
-
-let lastTouchedKey = null;
-
-keys.forEach((key) => {
-  key.addEventListener("mouseenter", () => {
-    setActive(key);
-  });
-
-  key.addEventListener("click", (event) => {
-    const target = key.dataset.target;
-    if (!target) return;
-
-    if (window.matchMedia("(hover: none)").matches) {
-      event.preventDefault();
-      if (lastTouchedKey === key) {
-        window.location.href = target;
-      } else {
-        setActive(key);
-        lastTouchedKey = key;
-      }
-    } else {
-      window.location.href = target;
+    // 2. Remplissage Featured Works
+    const featuredList = document.getElementById("featuredWorks");
+    if (featuredList) {
+        data.featured.forEach(work => {
+            const article = document.createElement("article");
+            article.className = "featured-card";
+            article.innerHTML = `
+                <p class="eyebrow">WORK ${work.number}</p>
+                <h3>${work.title} (${work.year})</h3>
+                <p>${work.description}</p>
+                <a href="#" style="color:var(--accent); font-family:var(--mono); font-size:0.8rem;">VIEW PROJECT -></a>
+            `;
+            featuredList.appendChild(article);
+        });
     }
-  });
-});
 
-keychain.addEventListener("mouseleave", () => {
-  resetActive();
-  keys.forEach((key) => {
-    key.style.transform = "";
-  });
+    // 3. Logique du Porte-clés
+    const keys = document.querySelectorAll(".key");
+    keys.forEach(key => {
+        key.addEventListener("click", () => {
+            const targetId = key.getAttribute("data-target");
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        });
+    });
 });
