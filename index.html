@@ -26,7 +26,7 @@
             display: flex; justify-content: space-between;
             padding: 30px; position: fixed;
             width: 100%; box-sizing: border-box;
-            z-index: 1000; background: linear-gradient(to bottom, black, transparent);
+            z-index: 1000;
         }
 
         .brand { font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; }
@@ -35,7 +35,6 @@
             margin-left: 20px; font-size: 0.8rem;
             cursor: pointer; background: none; border: none; font-family: var(--mono);
         }
-        nav a:hover, .admin-trigger:hover { color: var(--accent); }
 
         .hero {
             height: 100vh; display: flex; flex-direction: column;
@@ -43,36 +42,38 @@
         }
 
         .eyebrow { color: var(--accent); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px; }
-        h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 40px; text-transform: lowercase; }
+        h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 20px; text-transform: lowercase; }
 
-        /* KEYCHAIN ANIMATION SYSTEM */
-        .keychain-scene {
+        /* KEYCHAIN DYNAMIC SYSTEM - PATHS UPDATED TO ASSETS/ */
+        .keychain-wrapper {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 600px;
+            height: 500px;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
+            margin-top: -20px;
         }
 
         .support-img {
             position: absolute;
             top: 0;
-            width: 120px;
-            z-index: 10;
+            width: 160px;
+            z-index: 50;
             pointer-events: none;
         }
 
         .tag-btn {
             position: absolute;
-            top: 40px; /* Aligné sur l'anneau du support.png */
+            top: 65px; 
             left: 50%;
-            width: 100px; /* Ajuster selon la largeur de vos PNG */
+            width: 130px; 
             background: none;
             border: none;
             padding: 0;
             cursor: pointer;
-            transform-origin: center 15px; /* Pivot autour de l'anneau */
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-origin: center 25px; 
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             outline: none;
         }
 
@@ -80,57 +81,36 @@
             width: 100%;
             height: auto;
             display: block;
-            filter: grayscale(100%) brightness(0.7);
-            transition: filter 0.4s, transform 0.4s;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
         }
 
-        /* Positions initiales (Repos) */
-        .tag-btn[data-id="key1"] { transform: translateX(-50%) rotate(-35deg); z-index: 5; }
-        .tag-btn[data-id="key2"] { transform: translateX(-50%) rotate(-17deg); z-index: 4; }
+        /* REPOS - VERY COMPACT */
+        .tag-btn[data-id="key1"] { transform: translateX(-50%) rotate(-20deg); z-index: 5; }
+        .tag-btn[data-id="key2"] { transform: translateX(-50%) rotate(-10deg); z-index: 4; }
         .tag-btn[data-id="key3"] { transform: translateX(-50%) rotate(0deg); z-index: 3; }
-        .tag-btn[data-id="key4"] { transform: translateX(-50%) rotate(17deg); z-index: 2; }
-        .tag-btn[data-id="key5"] { transform: translateX(-50%) rotate(35deg); z-index: 1; }
+        .tag-btn[data-id="key4"] { transform: translateX(-50%) rotate(10deg); z-index: 2; }
+        .tag-btn[data-id="key5"] { transform: translateX(-50%) rotate(20deg); z-index: 1; }
 
-        /* Hover de la zone : les tags non-survolés s'estompent */
-        .keychain-scene:hover .tag-btn img {
-            filter: grayscale(100%) brightness(0.3) blur(1px);
-        }
+        /* EXPLOSION ON HOVER */
+        .keychain-wrapper:hover .tag-btn[data-id="key1"] { transform: translateX(-220%) rotate(-50deg); }
+        .keychain-wrapper:hover .tag-btn[data-id="key2"] { transform: translateX(-130%) rotate(-25deg); }
+        .keychain-wrapper:hover .tag-btn[data-id="key3"] { transform: translateX(-50%) translateY(40px); }
+        .keychain-wrapper:hover .tag-btn[data-id="key4"] { transform: translateX(30%) rotate(25deg); }
+        .keychain-wrapper:hover .tag-btn[data-id="key5"] { transform: translateX(120%) rotate(50deg); }
 
-        /* Hover spécifique sur un tag */
-        .tag-btn:hover, .tag-btn:focus {
+        .tag-btn:hover {
             z-index: 100 !important;
-            transform: translateX(-50%) rotate(0deg) scale(1.15) translateY(25px) !important;
+            scale: 1.4;
+            filter: brightness(1.2);
         }
 
-        .tag-btn:hover img, .tag-btn:focus img {
-            filter: grayscale(0%) brightness(1) blur(0);
-        }
-
-        /* Décalage dynamique des autres tags lors du survol */
-        /* Si key1 est survolé, les autres poussent à droite */
-        .keychain-scene:has(.tag-btn[data-id="key1"]:hover) .tag-btn:not([data-id="key1"]) { transform: translateX(-50%) rotate(40deg); }
-        /* Si key2 est survolé, key1 pousse à gauche, les autres à droite */
-        .keychain-scene:has(.tag-btn[data-id="key2"]:hover) .tag-btn[data-id="key1"] { transform: translateX(-50%) rotate(-50deg); }
-        .keychain-scene:has(.tag-btn[data-id="key2"]:hover) .tag-btn:not([data-id="key1"]):not([data-id="key2"]) { transform: translateX(-50%) rotate(40deg); }
-        /* Si key3 (milieu) est survolé, on écarte les deux côtés */
-        .keychain-scene:has(.tag-btn[data-id="key3"]:hover) .tag-btn[data-id="key1"] { transform: translateX(-50%) rotate(-55deg); }
-        .keychain-scene:has(.tag-btn[data-id="key3"]:hover) .tag-btn[data-id="key2"] { transform: translateX(-50%) rotate(-35deg); }
-        .keychain-scene:has(.tag-btn[data-id="key3"]:hover) .tag-btn[data-id="key4"] { transform: translateX(-50%) rotate(35deg); }
-        .keychain-scene:has(.tag-btn[data-id="key3"]:hover) .tag-btn[data-id="key5"] { transform: translateX(-50%) rotate(55deg); }
-        /* Si key4 est survolé */
-        .keychain-scene:has(.tag-btn[data-id="key4"]:hover) .tag-btn:not([data-id="key4"]):not([data-id="key5"]) { transform: translateX(-50%) rotate(-40deg); }
-        .keychain-scene:has(.tag-btn[data-id="key4"]:hover) .tag-btn[data-id="key5"] { transform: translateX(-50%) rotate(50deg); }
-        /* Si key5 est survolé, les autres poussent à gauche */
-        .keychain-scene:has(.tag-btn[data-id="key5"]:hover) .tag-btn:not([data-id="key5"]) { transform: translateX(-50%) rotate(-40deg); }
-
-        section.content { padding: 100px 50px; border-top: 1px solid #111; min-height: 80vh; }
-        h2 { color: var(--accent); font-size: 1.2rem; margin-bottom: 20px; }
+        section.content { padding: 100px 50px; border-top: 1px solid #222; min-height: 100vh; }
+        h2 { color: var(--accent); font-size: 1.5rem; letter-spacing: 3px; }
 
         #adminPanel {
             display: none; position: fixed; top: 0; right: 0;
             width: 350px; height: 100%; background: #111;
-            border-left: 2px solid var(--accent); z-index: 2000;
-            padding: 40px; box-sizing: border-box;
+            border-left: 2px solid var(--accent); z-index: 2000; padding: 40px;
         }
         .admin-open { display: block !important; }
         input { width: 100%; background: #000; border: 1px solid #333; color: white; padding: 10px; margin: 10px 0; font-family: var(--mono); }
@@ -152,23 +132,23 @@
             <p class="eyebrow">CREATIVE PORTFOLIO</p>
             <h1>capucine's portfolio</h1>
             
-            <div class="keychain-scene">
-                <img src="support.png" class="support-img" alt="Support Ring">
+            <div class="keychain-wrapper">
+                <img src="assets/support.png" class="support-img" alt="Support">
                 
                 <button class="tag-btn" data-id="key1" onclick="scrollToSec('product')">
-                    <img src="key1.png" alt="Product Design">
+                    <img src="assets/key1.png" alt="Product">
                 </button>
                 <button class="tag-btn" data-id="key2" onclick="scrollToSec('graphic')">
-                    <img src="key2.png" alt="Graphic Design">
+                    <img src="assets/key2.png" alt="Graphic">
                 </button>
                 <button class="tag-btn" data-id="key3" onclick="scrollToSec('industrial')">
-                    <img src="key3.png" alt="Industrial Design">
+                    <img src="assets/key3.png" alt="Industrial">
                 </button>
                 <button class="tag-btn" data-id="key4" onclick="scrollToSec('craft')">
-                    <img src="key4.png" alt="Craft & Design">
+                    <img src="assets/key4.png" alt="Craft">
                 </button>
                 <button class="tag-btn" data-id="key5" onclick="scrollToSec('about')">
-                    <img src="key5.png" alt="About">
+                    <img src="assets/key5.png" alt="About">
                 </button>
             </div>
         </section>
@@ -184,29 +164,24 @@
         <h3 style="color: var(--accent);">SETTINGS</h3>
         <input type="password" id="adminPass" placeholder="Password">
         <button onclick="checkAdmin()" style="width: 100%; padding: 10px; background: var(--accent); border: none; cursor: pointer;">UNLOCK</button>
-        <br><br>
-        <button onclick="closeAdmin()" style="color: grey; background: none; border: none; cursor: pointer;">CLOSE</button>
+        <button onclick="closeAdmin()" style="color: grey; background: none; border: none; margin-top: 20px; cursor: pointer;">CLOSE</button>
     </div>
 
     <script>
-        // Prechargement
-        const files = ['support.png', 'key1.png', 'key2.png', 'key3.png', 'key4.png', 'key5.png'];
-        files.forEach(f => { const img = new Image(); img.src = f; });
-
         function scrollToSec(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
-
         function openAdmin() { document.getElementById('adminPanel').classList.add('admin-open'); }
         function closeAdmin() { document.getElementById('adminPanel').classList.remove('admin-open'); }
-
         function checkAdmin() {
             if(document.getElementById('adminPass').value === "NUGGETS4LIFE") {
                 alert("Access Granted.");
-            } else {
-                alert("Wrong password.");
-            }
+            } else { alert("Wrong password."); }
         }
+        // Preload from assets
+        ['support.png', 'key1.png', 'key2.png', 'key3.png', 'key4.png', 'key5.png'].forEach(f => {
+            new Image().src = 'assets/' + f;
+        });
     </script>
 </body>
 </html>
