@@ -22,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* HEADER */
         header {
             display: flex; justify-content: space-between;
             padding: 30px; position: fixed;
@@ -30,7 +29,7 @@
             z-index: 1000; background: linear-gradient(to bottom, black, transparent);
         }
 
-        .brand { font-weight: bold; font-size: 0.9rem; }
+        .brand { font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; }
         nav a, .admin-trigger {
             color: white; text-decoration: none;
             margin-left: 20px; font-size: 0.8rem;
@@ -38,57 +37,95 @@
         }
         nav a:hover, .admin-trigger:hover { color: var(--accent); }
 
-        /* HERO & KEYCHAIN */
         .hero {
             height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
         }
 
         .eyebrow { color: var(--accent); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px; }
-        h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 40px; }
+        h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 40px; text-transform: lowercase; }
 
-        /* KEYCHAIN SYSTEM */
-        .keychain-container {
-            position: relative; width: 300px; height: 350px;
-            display: flex; justify-content: center;
+        /* KEYCHAIN ANIMATION SYSTEM */
+        .keychain-scene {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
         }
 
-        .keychain-ring {
-            width: 80px; height: 80px; border: 3px solid #333;
-            border-radius: 50%; position: absolute; top: 0; z-index: 10;
+        .support-img {
+            position: absolute;
+            top: 0;
+            width: 120px;
+            z-index: 10;
+            pointer-events: none;
         }
 
-        .key-tag {
-            position: absolute; top: 60px; left: 50%;
-            transform-origin: top center;
-            background: #111; border: 1px solid #333;
-            color: white; padding: 12px 20px;
-            border-radius: 5px; cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            white-space: nowrap; font-size: 0.7rem;
+        .tag-btn {
+            position: absolute;
+            top: 40px; /* Aligné sur l'anneau du support.png */
+            left: 50%;
+            width: 100px; /* Ajuster selon la largeur de vos PNG */
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transform-origin: center 15px; /* Pivot autour de l'anneau */
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            outline: none;
         }
 
-        /* Position repos (éventail fermé) */
-        .tag1 { transform: translateX(-50%) rotate(-10deg); z-index: 5; }
-        .tag2 { transform: translateX(-50%) rotate(-5deg); z-index: 4; }
-        .tag3 { transform: translateX(-50%) rotate(0deg); z-index: 3; }
-        .tag4 { transform: translateX(-50%) rotate(5deg); z-index: 2; }
-        .tag5 { transform: translateX(-50%) rotate(10deg); z-index: 1; }
+        .tag-btn img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(100%) brightness(0.7);
+            transition: filter 0.4s, transform 0.4s;
+        }
 
-        /* HOVER EFFECT (Éclatement) */
-        .keychain-container:hover .tag1 { transform: translateX(-140%) rotate(-25deg); }
-        .keychain-container:hover .tag2 { transform: translateX(-80%) rotate(-12deg); }
-        .keychain-container:hover .tag3 { transform: translateX(-50%) translateY(20px); }
-        .keychain-container:hover .tag4 { transform: translateX(-20%) rotate(12deg); }
-        .keychain-container:hover .tag5 { transform: translateX(40%) rotate(25deg); }
+        /* Positions initiales (Repos) */
+        .tag-btn[data-id="key1"] { transform: translateX(-50%) rotate(-35deg); z-index: 5; }
+        .tag-btn[data-id="key2"] { transform: translateX(-50%) rotate(-17deg); z-index: 4; }
+        .tag-btn[data-id="key3"] { transform: translateX(-50%) rotate(0deg); z-index: 3; }
+        .tag-btn[data-id="key4"] { transform: translateX(-50%) rotate(17deg); z-index: 2; }
+        .tag-btn[data-id="key5"] { transform: translateX(-50%) rotate(35deg); z-index: 1; }
 
-        .key-tag:hover { background: var(--accent) !important; color: black !important; z-index: 100 !important; }
+        /* Hover de la zone : les tags non-survolés s'estompent */
+        .keychain-scene:hover .tag-btn img {
+            filter: grayscale(100%) brightness(0.3) blur(1px);
+        }
 
-        /* SECTIONS */
-        section.content { padding: 100px 50px; border-top: 1px solid #111; }
-        h2 { color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px; }
-        
-        /* ADMIN PANEL */
+        /* Hover spécifique sur un tag */
+        .tag-btn:hover, .tag-btn:focus {
+            z-index: 100 !important;
+            transform: translateX(-50%) rotate(0deg) scale(1.15) translateY(25px) !important;
+        }
+
+        .tag-btn:hover img, .tag-btn:focus img {
+            filter: grayscale(0%) brightness(1) blur(0);
+        }
+
+        /* Décalage dynamique des autres tags lors du survol */
+        /* Si key1 est survolé, les autres poussent à droite */
+        .keychain-scene:has(.tag-btn[data-id="key1"]:hover) .tag-btn:not([data-id="key1"]) { transform: translateX(-50%) rotate(40deg); }
+        /* Si key2 est survolé, key1 pousse à gauche, les autres à droite */
+        .keychain-scene:has(.tag-btn[data-id="key2"]:hover) .tag-btn[data-id="key1"] { transform: translateX(-50%) rotate(-50deg); }
+        .keychain-scene:has(.tag-btn[data-id="key2"]:hover) .tag-btn:not([data-id="key1"]):not([data-id="key2"]) { transform: translateX(-50%) rotate(40deg); }
+        /* Si key3 (milieu) est survolé, on écarte les deux côtés */
+        .keychain-scene:has(.tag-btn[data-id="key3"]:hover) .tag-btn[data-id="key1"] { transform: translateX(-50%) rotate(-55deg); }
+        .keychain-scene:has(.tag-btn[data-id="key3"]:hover) .tag-btn[data-id="key2"] { transform: translateX(-50%) rotate(-35deg); }
+        .keychain-scene:has(.tag-btn[data-id="key3"]:hover) .tag-btn[data-id="key4"] { transform: translateX(-50%) rotate(35deg); }
+        .keychain-scene:has(.tag-btn[data-id="key3"]:hover) .tag-btn[data-id="key5"] { transform: translateX(-50%) rotate(55deg); }
+        /* Si key4 est survolé */
+        .keychain-scene:has(.tag-btn[data-id="key4"]:hover) .tag-btn:not([data-id="key4"]):not([data-id="key5"]) { transform: translateX(-50%) rotate(-40deg); }
+        .keychain-scene:has(.tag-btn[data-id="key4"]:hover) .tag-btn[data-id="key5"] { transform: translateX(-50%) rotate(50deg); }
+        /* Si key5 est survolé, les autres poussent à gauche */
+        .keychain-scene:has(.tag-btn[data-id="key5"]:hover) .tag-btn:not([data-id="key5"]) { transform: translateX(-50%) rotate(-40deg); }
+
+        section.content { padding: 100px 50px; border-top: 1px solid #111; min-height: 80vh; }
+        h2 { color: var(--accent); font-size: 1.2rem; margin-bottom: 20px; }
+
         #adminPanel {
             display: none; position: fixed; top: 0; right: 0;
             width: 350px; height: 100%; background: #111;
@@ -96,10 +133,7 @@
             padding: 40px; box-sizing: border-box;
         }
         .admin-open { display: block !important; }
-        input, textarea {
-            width: 100%; background: #000; border: 1px solid #333;
-            color: white; padding: 10px; margin: 10px 0; font-family: var(--mono);
-        }
+        input { width: 100%; background: #000; border: 1px solid #333; color: white; padding: 10px; margin: 10px 0; font-family: var(--mono); }
     </style>
 </head>
 <body>
@@ -118,57 +152,57 @@
             <p class="eyebrow">CREATIVE PORTFOLIO</p>
             <h1>capucine's portfolio</h1>
             
-            <div class="keychain-container">
-                <div class="keychain-ring"></div>
-                <div class="key-tag tag1" onclick="scrollToSec('product')">PRODUCT DESIGN</div>
-                <div class="key-tag tag2" onclick="scrollToSec('graphic')">GRAPHIC DESIGN</div>
-                <div class="key-tag tag3" onclick="scrollToSec('industrial')">INDUSTRIAL DESIGN</div>
-                <div class="key-tag tag4" onclick="scrollToSec('craft')">CRAFT & DESIGN</div>
-                <div class="key-tag tag5" onclick="scrollToSec('about')">ABOUT ME</div>
+            <div class="keychain-scene">
+                <img src="support.png" class="support-img" alt="Support Ring">
+                
+                <button class="tag-btn" data-id="key1" onclick="scrollToSec('product')">
+                    <img src="key1.png" alt="Product Design">
+                </button>
+                <button class="tag-btn" data-id="key2" onclick="scrollToSec('graphic')">
+                    <img src="key2.png" alt="Graphic Design">
+                </button>
+                <button class="tag-btn" data-id="key3" onclick="scrollToSec('industrial')">
+                    <img src="key3.png" alt="Industrial Design">
+                </button>
+                <button class="tag-btn" data-id="key4" onclick="scrollToSec('craft')">
+                    <img src="key4.png" alt="Craft & Design">
+                </button>
+                <button class="tag-btn" data-id="key5" onclick="scrollToSec('about')">
+                    <img src="key5.png" alt="About">
+                </button>
             </div>
         </section>
 
-        <section id="product" class="content"><h2>PRODUCT DESIGN</h2><div class="grid" id="productGrid"></div></section>
-        <section id="graphic" class="content"><h2>GRAPHIC DESIGN</h2><div class="grid" id="graphicGrid"></div></section>
-        <section id="industrial" class="content"><h2>INDUSTRIAL DESIGN</h2><div class="grid" id="industrialGrid"></div></section>
-        <section id="craft" class="content"><h2>CRAFT & DESIGN</h2><div class="grid" id="craftGrid"></div></section>
-        <section id="about" class="content"><h2>ABOUT</h2><p>Designer based in Lyon. Exploring the boundary between physical objects and digital archives.</p></section>
+        <section id="product" class="content"><h2>PRODUCT DESIGN</h2></section>
+        <section id="graphic" class="content"><h2>GRAPHIC DESIGN</h2></section>
+        <section id="industrial" class="content"><h2>INDUSTRIAL DESIGN</h2></section>
+        <section id="craft" class="content"><h2>CRAFT & DESIGN</h2></section>
+        <section id="about" class="content"><h2>ABOUT</h2></section>
     </main>
 
     <div id="adminPanel">
         <h3 style="color: var(--accent);">SETTINGS</h3>
-        <p style="font-size: 0.7rem;">Enter credentials to modify archive.</p>
         <input type="password" id="adminPass" placeholder="Password">
         <button onclick="checkAdmin()" style="width: 100%; padding: 10px; background: var(--accent); border: none; cursor: pointer;">UNLOCK</button>
-        
-        <div id="adminTools" style="display:none; margin-top: 30px;">
-            <p>Add Project</p>
-            <input type="text" placeholder="Project Title">
-            <textarea placeholder="Description"></textarea>
-            <button style="background: white; color: black; border: none; padding: 5px 10px;">PUBLISH</button>
-        </div>
         <br><br>
         <button onclick="closeAdmin()" style="color: grey; background: none; border: none; cursor: pointer;">CLOSE</button>
     </div>
 
     <script>
+        // Prechargement
+        const files = ['support.png', 'key1.png', 'key2.png', 'key3.png', 'key4.png', 'key5.png'];
+        files.forEach(f => { const img = new Image(); img.src = f; });
+
         function scrollToSec(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        function openAdmin() {
-            document.getElementById('adminPanel').classList.add('admin-open');
-        }
-
-        function closeAdmin() {
-            document.getElementById('adminPanel').classList.remove('admin-open');
-        }
+        function openAdmin() { document.getElementById('adminPanel').classList.add('admin-open'); }
+        function closeAdmin() { document.getElementById('adminPanel').classList.remove('admin-open'); }
 
         function checkAdmin() {
-            const pass = document.getElementById('adminPass').value;
-            if(pass === "NUGGETS4LIFE") {
-                document.getElementById('adminTools').style.display = 'block';
-                alert("Access Granted. Welcome Capucine.");
+            if(document.getElementById('adminPass').value === "NUGGETS4LIFE") {
+                alert("Access Granted.");
             } else {
                 alert("Wrong password.");
             }
