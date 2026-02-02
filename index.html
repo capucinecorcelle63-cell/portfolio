@@ -1,50 +1,197 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interactive Keychain</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="keychain" aria-label="Interactive keychain portfolio">
-      <img class="support" src="assets/support.png" alt="Anneau du porte-clés" />
-      <ul class="keys" aria-label="Projects">
-        <li>
-          <a class="key" href="project-1.html" data-label="Refonte" data-index="1">
-            <img src="assets/key1.png" alt="Projet Refonte" />
-            <span>Refonte UI</span>
-          </a>
-        </li>
-        <li>
-          <a class="key" href="project-2.html" data-label="Illustration" data-index="2">
-            <img src="assets/key2.png" alt="Projet Illustration" />
-            <span>Illustration</span>
-          </a>
-        </li>
-        <li>
-          <a class="key" href="project-3.html" data-label="Branding" data-index="3">
-            <img src="assets/key3.png" alt="Projet Branding" />
-            <span>Branding</span>
-          </a>
-        </li>
-        <li>
-          <a class="key" href="project-4.html" data-label="Motion" data-index="4">
-            <img src="assets/key4.png" alt="Projet Motion" />
-            <span>Motion</span>
-          </a>
-        </li>
-        <li>
-          <a class="key" href="project-5.html" data-label="Produit" data-index="5">
-            <img src="assets/key5.png" alt="Projet Produit" />
-            <span>Produit</span>
-          </a>
-        </li>
-      </ul>
-      <p class="instructions">
-        Survole une clé pour ouvrir le trousseau. Clique pour entrer.
-      </p>
-    </main>
-    <script src="app.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capucine Corcelle — Archive Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">CAPUCINE CORCELLE — ARCHIVE</div>
+    <nav class="main-nav">
+      <a href="#home">HOME</a>
+      <a href="#about">ABOUT</a>
+      <a href="#contact">CONTACT</a>
+      <a href="#admin">ADMIN</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">DOSSIER / KEYCHAIN INDEX</p>
+        <h1>Un portfolio pensé comme une archive vivante, classée par objets.</h1>
+        <p class="lede">
+          Chaque tag du trousseau ouvre un chapitre : Product Design, Graphic Design,
+          Industrial Design, Craft & Design et About Me.
+        </p>
+      </div>
+      <div class="keychain" id="keychain">
+        <div class="support" aria-hidden="true"></div>
+        <button class="key key1" data-target="#product-design" type="button">
+          <span>PRODUCT DESIGN</span>
+        </button>
+        <button class="key key2" data-target="#graphic-design" type="button">
+          <span>GRAPHIC DESIGN</span>
+        </button>
+        <button class="key key3" data-target="#industrial-design" type="button">
+          <span>INDUSTRIAL DESIGN</span>
+        </button>
+        <button class="key key4" data-target="#craft-design" type="button">
+          <span>CRAFT & DESIGN</span>
+        </button>
+        <button class="key key5" data-target="#about">
+          <span>ABOUT ME</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="category-preview" id="product-design">
+      <div class="section-heading">
+        <h2>PRODUCT DESIGN</h2>
+        <p>Objets, interfaces et prototypes — une sélection d’archives matérialisées.</p>
+      </div>
+      <div class="preview-grid" id="productPreview"></div>
+    </section>
+
+    <section class="category-preview" id="graphic-design">
+      <div class="section-heading">
+        <h2>GRAPHIC DESIGN</h2>
+        <p>Identités, affiches, layouts, typographies et assets éditoriaux.</p>
+      </div>
+      <div class="preview-grid" id="graphicPreview"></div>
+    </section>
+
+    <section class="category-preview" id="industrial-design">
+      <div class="section-heading">
+        <h2>INDUSTRIAL DESIGN</h2>
+        <p>Objets, mobiliers, explorations volumétriques et matières.</p>
+      </div>
+      <div class="preview-grid" id="industrialPreview"></div>
+    </section>
+
+    <section class="category-preview" id="craft-design">
+      <div class="section-heading">
+        <h2>CRAFT & DESIGN</h2>
+        <p>Texture, artisanat, prototypes et pièces uniques.</p>
+      </div>
+      <div class="preview-grid" id="craftPreview"></div>
+    </section>
+
+    <section class="featured" id="featured">
+      <div class="section-heading">
+        <h2>FEATURED WORKS</h2>
+        <p>Sélection de projets phares, présentés comme des fiches d’archives.</p>
+      </div>
+      <div class="featured-list" id="featuredWorks"></div>
+    </section>
+
+    <section class="project" id="project-detail">
+      <div class="section-heading">
+        <h2>PROJECT PAGE</h2>
+        <p>Template de page projet avec navigation et notes d’archives.</p>
+      </div>
+      <div class="project-card">
+        <div class="project-header">
+          <a class="back-link" href="#featured">SEE ALL PRODUCT DESIGN WORKS &larr;</a>
+          <h3>Satellite Workspace</h3>
+          <div class="project-meta">PRODUCT DESIGN / 2024</div>
+        </div>
+        <p class="project-intro">
+          Une station de travail modulable pensée pour les studios nomades, avec un
+          langage formel inspiré de l’archivage.
+        </p>
+        <div class="project-gallery" id="projectGallery"></div>
+        <div class="project-notes">
+          <h4>#### Notes</h4>
+          <p>Prototype assemblé en aluminium et polymère translucide.</p>
+          <p>#### Archive Log</p>
+          <p>Tests utilisateurs réalisés en atelier pendant 3 semaines.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="section-heading">
+        <h2>ABOUT</h2>
+        <p>Profil et informations personnelles, structuré comme un CV d’archive.</p>
+      </div>
+      <div class="about-grid">
+        <div>
+          <h3>PROFILE</h3>
+          <p>Designer pluridisciplinaire, passionnée par les systèmes d’archives et les objets narratifs.</p>
+        </div>
+        <div>
+          <h3>EXPERIENCES</h3>
+          <ul>
+            <li>2024 — Design Studio, Product Designer</li>
+            <li>2022 — Atelier Archive, Graphic Lead</li>
+            <li>2020 — Freelance, Industrial Designer</li>
+          </ul>
+        </div>
+        <div>
+          <h3>SOFTWARES</h3>
+          <ul>
+            <li>Figma, Rhino, Blender</li>
+            <li>Adobe CC, Notion</li>
+          </ul>
+        </div>
+        <div>
+          <h3>LANGUAGES</h3>
+          <ul>
+            <li>Français (native)</li>
+            <li>Anglais (C1)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>SKILLSETS</h3>
+          <ul>
+            <li>Design systems, prototyping</li>
+            <li>Documentation, narrative archives</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="section-heading">
+        <h2>CONTACT</h2>
+        <p>Liens directs pour collaboration ou consultation.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:hello@capucine.studio">EMAIL</a>
+        <a href="https://instagram.com" target="_blank" rel="noreferrer">INSTAGRAM</a>
+        <a href="https://linkedin.com" target="_blank" rel="noreferrer">LINKEDIN</a>
+        <a href="https://behance.net" target="_blank" rel="noreferrer">RESUME</a>
+      </div>
+    </section>
+
+    <section id="admin" class="admin">
+      <div class="section-heading">
+        <h2>ADMIN</h2>
+        <p>Zone réservée — accès aux dossiers internes et aux archives complètes.</p>
+      </div>
+      <div class="admin-panel">
+        <p>Accès protégé. Contactez-moi pour un accès direct.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="mailto:hello@capucine.studio">EMAIL</a>
+      <a href="https://instagram.com" target="_blank" rel="noreferrer">INSTAGRAM</a>
+      <a href="https://linkedin.com" target="_blank" rel="noreferrer">LINKEDIN</a>
+      <a href="https://behance.net" target="_blank" rel="noreferrer">RESUME</a>
+    </div>
+    <div class="footer-note">ARCHIVE SYSTEM — 2024</div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
 </html>
