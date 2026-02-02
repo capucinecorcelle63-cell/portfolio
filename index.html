@@ -47,45 +47,66 @@
         .eyebrow { color: var(--accent); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px; }
         h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 40px; }
 
-        /* KEYCHAIN SYSTEM */
+        /* KEYCHAIN SYSTEM WITH PNGs */
         .keychain-container {
-            position: relative; width: 300px; height: 350px;
-            display: flex; justify-content: center;
+            position: relative; 
+            width: 400px; 
+            height: 400px;
+            display: flex; 
+            justify-content: center;
         }
 
         .keychain-ring {
-            width: 80px; height: 80px; border: 3px solid #333;
-            border-radius: 50%; position: absolute; top: 0; z-index: 10;
+            width: 120px; 
+            height: auto;
+            position: absolute; 
+            top: 0; 
+            z-index: 20;
+            pointer-events: none; /* L'image support ne bloque pas le survol */
         }
 
         .key-tag {
-            position: absolute; top: 60px; left: 50%;
-            transform-origin: top center;
-            background: #111; border: 1px solid #333;
-            color: white; padding: 12px 20px;
-            border-radius: 5px; cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            white-space: nowrap; font-size: 0.7rem;
+            position: absolute; 
+            top: 45px; /* Aligné sur l'anneau du support.png */
+            left: 50%;
+            width: 100px; /* Taille ajustable selon tes PNG */
+            transform-origin: center 15px; /* Rotation depuis le trou du tag */
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .key-tag img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* Position repos (éventail fermé) */
-        .tag1 { transform: translateX(-50%) rotate(-10deg); z-index: 5; }
-        .tag2 { transform: translateX(-50%) rotate(-5deg); z-index: 4; }
+        .tag1 { transform: translateX(-50%) rotate(-15deg); z-index: 5; }
+        .tag2 { transform: translateX(-50%) rotate(-8deg); z-index: 4; }
         .tag3 { transform: translateX(-50%) rotate(0deg); z-index: 3; }
-        .tag4 { transform: translateX(-50%) rotate(5deg); z-index: 2; }
-        .tag5 { transform: translateX(-50%) rotate(10deg); z-index: 1; }
+        .tag4 { transform: translateX(-50%) rotate(8deg); z-index: 2; }
+        .tag5 { transform: translateX(-50%) rotate(15deg); z-index: 1; }
 
-        /* HOVER EFFECT (Éclatement) */
-        .keychain-container:hover .tag1 { transform: translateX(-140%) rotate(-25deg); }
-        .keychain-container:hover .tag2 { transform: translateX(-80%) rotate(-12deg); }
-        .keychain-container:hover .tag3 { transform: translateX(-50%) translateY(20px); }
-        .keychain-container:hover .tag4 { transform: translateX(-20%) rotate(12deg); }
-        .keychain-container:hover .tag5 { transform: translateX(40%) rotate(25deg); }
+        /* HOVER EFFECT (Éclatement - Reprend la logique de ton code favori) */
+        .keychain-container:hover .tag1 { transform: translateX(-160%) rotate(-35deg); }
+        .keychain-container:hover .tag2 { transform: translateX(-100%) rotate(-18deg); }
+        .keychain-container:hover .tag3 { transform: translateX(-50%) translateY(30px); }
+        .keychain-container:hover .tag4 { transform: translateX(0%) rotate(18deg); }
+        .keychain-container:hover .tag5 { transform: translateX(60%) rotate(35deg); }
 
-        .key-tag:hover { background: var(--accent) !important; color: black !important; z-index: 100 !important; }
+        /* Zoom sur le tag précisément survolé */
+        .key-tag:hover, .key-tag:focus { 
+            z-index: 100 !important; 
+            scale: 1.2;
+            outline: none;
+        }
 
         /* SECTIONS */
-        section.content { padding: 100px 50px; border-top: 1px solid #111; }
+        section.content { padding: 100px 50px; border-top: 1px solid #111; min-height: 80vh; }
         h2 { color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px; }
         
         /* ADMIN PANEL */
@@ -119,30 +140,38 @@
             <h1>capucine's portfolio</h1>
             
             <div class="keychain-container">
-                <div class="keychain-ring"></div>
-                <div class="key-tag tag1" onclick="scrollToSec('product')">PRODUCT DESIGN</div>
-                <div class="key-tag tag2" onclick="scrollToSec('graphic')">GRAPHIC DESIGN</div>
-                <div class="key-tag tag3" onclick="scrollToSec('industrial')">INDUSTRIAL DESIGN</div>
-                <div class="key-tag tag4" onclick="scrollToSec('craft')">CRAFT & DESIGN</div>
-                <div class="key-tag tag5" onclick="scrollToSec('about')">ABOUT ME</div>
+                <img src="assets/support.png" class="keychain-ring" alt="Ring Support">
+                
+                <button class="key-tag tag1" onclick="scrollToSec('product')">
+                    <img src="assets/key1.png" alt="Product Design">
+                </button>
+                <button class="key-tag tag2" onclick="scrollToSec('graphic')">
+                    <img src="assets/key2.png" alt="Graphic Design">
+                </button>
+                <button class="key-tag tag3" onclick="scrollToSec('industrial')">
+                    <img src="assets/key3.png" alt="Industrial Design">
+                </button>
+                <button class="key-tag tag4" onclick="scrollToSec('craft')">
+                    <img src="assets/key4.png" alt="Craft & Design">
+                </button>
+                <button class="key-tag tag5" onclick="scrollToSec('about')">
+                    <img src="assets/key5.png" alt="About Me">
+                </button>
             </div>
         </section>
 
-        <section id="product" class="content"><h2>PRODUCT DESIGN</h2><div class="grid" id="productGrid"></div></section>
-        <section id="graphic" class="content"><h2>GRAPHIC DESIGN</h2><div class="grid" id="graphicGrid"></div></section>
-        <section id="industrial" class="content"><h2>INDUSTRIAL DESIGN</h2><div class="grid" id="industrialGrid"></div></section>
-        <section id="craft" class="content"><h2>CRAFT & DESIGN</h2><div class="grid" id="craftGrid"></div></section>
-        <section id="about" class="content"><h2>ABOUT</h2><p>Designer based in Lyon. Exploring the boundary between physical objects and digital archives.</p></section>
+        <section id="product" class="content"><h2>PRODUCT DESIGN</h2><div class="grid"></div></section>
+        <section id="graphic" class="content"><h2>GRAPHIC DESIGN</h2><div class="grid"></div></section>
+        <section id="industrial" class="content"><h2>INDUSTRIAL DESIGN</h2><div class="grid"></div></section>
+        <section id="craft" class="content"><h2>CRAFT & DESIGN</h2><div class="grid"></div></section>
+        <section id="about" class="content"><h2>ABOUT</h2><p>Designer based in Lyon.</p></section>
     </main>
 
     <div id="adminPanel">
         <h3 style="color: var(--accent);">SETTINGS</h3>
-        <p style="font-size: 0.7rem;">Enter credentials to modify archive.</p>
         <input type="password" id="adminPass" placeholder="Password">
         <button onclick="checkAdmin()" style="width: 100%; padding: 10px; background: var(--accent); border: none; cursor: pointer;">UNLOCK</button>
-        
         <div id="adminTools" style="display:none; margin-top: 30px;">
-            <p>Add Project</p>
             <input type="text" placeholder="Project Title">
             <textarea placeholder="Description"></textarea>
             <button style="background: white; color: black; border: none; padding: 5px 10px;">PUBLISH</button>
@@ -152,17 +181,16 @@
     </div>
 
     <script>
+        // Prechargement des assets
+        const assets = ['support.png', 'key1.png', 'key2.png', 'key3.png', 'key4.png', 'key5.png'];
+        assets.forEach(file => { const img = new Image(); img.src = 'assets/' + file; });
+
         function scrollToSec(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        function openAdmin() {
-            document.getElementById('adminPanel').classList.add('admin-open');
-        }
-
-        function closeAdmin() {
-            document.getElementById('adminPanel').classList.remove('admin-open');
-        }
+        function openAdmin() { document.getElementById('adminPanel').classList.add('admin-open'); }
+        function closeAdmin() { document.getElementById('adminPanel').classList.remove('admin-open'); }
 
         function checkAdmin() {
             const pass = document.getElementById('adminPass').value;
