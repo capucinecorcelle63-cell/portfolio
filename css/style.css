@@ -1,109 +1,67 @@
-/* ==========================================================================
-   RESET & BASE
-   ========================================================================== */
+/* RESET & VARIABLES */
 :root {
     --accent: #f3d44d;
     --bg: #000000;
-    --text: #ffffff;
     --mono: 'Space Mono', monospace;
 }
 
 body, html {
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     background-color: var(--bg);
-    color: var(--text);
+    color: #ffffff;
     font-family: var(--mono);
     scroll-behavior: smooth;
     overflow-x: hidden;
 }
 
-/* ==========================================================================
-   HEADER
-   ========================================================================== */
+/* HEADER */
 .site-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 30px 40px;
-    position: fixed;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 1000;
-    background: linear-gradient(to bottom, black, transparent);
+    display: flex; justify-content: space-between;
+    padding: 30px; position: fixed;
+    width: 100%; box-sizing: border-box;
+    z-index: 1000; background: linear-gradient(to bottom, black, transparent);
 }
 
 .site-header a, .admin-trigger {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-family: var(--mono);
-    transition: color 0.3s;
+    color: white; text-decoration: none;
+    margin-left: 20px; font-size: 0.8rem; cursor: pointer;
+    background: none; border: none; font-family: var(--mono);
 }
 
-.site-header a:hover, .admin-trigger:hover {
-    color: var(--accent);
-}
-
-/* ==========================================================================
-   HERO SECTION
-   ========================================================================== */
+/* HERO */
 .hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
 }
 
-.eyebrow { 
-    color: var(--accent); 
-    font-size: 0.7rem; 
-    letter-spacing: 2px; 
-    margin-bottom: 10px;
-}
+.eyebrow { color: var(--accent); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px; }
+h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 40px; }
 
-h1 { 
-    font-size: 2.5rem; 
-    font-weight: normal; 
-    margin-bottom: 20px;
-    text-transform: lowercase;
-}
-
-/* ==========================================================================
-   SYSTÈME DE PORTE-CLÉS (L'ÉVENTAIL)
-   ========================================================================== */
+/* LE TROUSSEAU (SYSTÈME PHYSIQUE) */
 .keychain-container {
     position: relative;
-    width: 350px;
+    width: 320px;
     height: 450px;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
 }
 
-/* Le support fixe (mousqueton) */
 .keychain-support {
-    width: 70px;
+    width: 80px;
     height: auto;
     z-index: 10;
-    pointer-events: none; /* La souris passe à travers pour cliquer les clés */
+    pointer-events: none;
 }
 
-/* Style commun des clés */
 .key-tag {
     position: absolute;
-    /* Ajuste ce top pour que le trou du PNG soit pile sur l'anneau du support */
-    top: 155px; 
+    /* Ajuste ce top pour que le haut de tes clés touche l'anneau */
+    top: 180px; 
     left: 50%;
     width: 110px; 
     cursor: pointer;
-    /* LE SECRET : Le pivot est en haut au centre de l'image (le trou de la clé) */
-    transform-origin: center 5px; 
+    /* LE PIVOT : se trouve en haut de l'image (le trou du PNG) */
+    transform-origin: center 10px; 
     transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -111,65 +69,43 @@ h1 {
     width: 100%;
     height: auto;
     display: block;
-    transition: filter 0.3s;
 }
 
-/* POSITIONS AU REPOS (Fermé / Groupé) */
+/* POSITIONS FERMÉES */
 .tag1 { transform: translateX(-50%) rotate(-4deg); z-index: 5; }
 .tag2 { transform: translateX(-50%) rotate(-2deg); z-index: 4; }
 .tag3 { transform: translateX(-50%) rotate(0deg);  z-index: 3; }
 .tag4 { transform: translateX(-50%) rotate(2deg);  z-index: 2; }
 .tag5 { transform: translateX(-50%) rotate(4deg);  z-index: 1; }
 
-/* EFFET HOVER (Ouverture naturelle en éventail) */
+/* HOVER : OUVERTURE EN ÉVENTAIL */
 .keychain-container:hover .tag1 { transform: translateX(-50%) rotate(-65deg); }
 .keychain-container:hover .tag2 { transform: translateX(-50%) rotate(-35deg); }
-.keychain-container:hover .tag3 { transform: translateX(-50%) translateY(15px); }
+.keychain-container:hover .tag3 { transform: translateX(-50%) translateY(20px); }
 .keychain-container:hover .tag4 { transform: translateX(-50%) rotate(35deg); }
 .keychain-container:hover .tag5 { transform: translateX(-50%) rotate(65deg); }
 
-/* Animation spécifique quand on survole UNE seule clé */
 .key-tag:hover {
     z-index: 100 !important;
-    filter: brightness(1.2) drop-shadow(0 0 15px rgba(243, 212, 77, 0.4));
+    filter: brightness(1.2);
 }
 
-/* ==========================================================================
-   SECTIONS DE CONTENU & GRILLE
-   ========================================================================== */
-.content-sec {
-    padding: 100px 50px;
-    border-top: 1px solid #222;
-}
-
-h2 { 
-    color: var(--accent); 
-    border-left: 3px solid var(--accent);
-    padding-left: 15px;
-    font-size: 1.2rem;
-}
+/* CONTENU */
+.content-sec { padding: 100px 50px; border-top: 1px solid #111; }
+h2 { color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px; }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
 }
 
-/* Boutons classiques (si besoin ailleurs) */
-button.standard {
-    background: transparent;
-    border: 1px solid #333;
-    color: white;
-    padding: 8px 15px;
-    cursor: pointer;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    transition: 0.3s;
+/* ADMIN */
+#adminPanel {
+    display: none; position: fixed; top: 0; right: 0;
+    width: 300px; height: 100%; background: #111;
+    border-left: 2px solid var(--accent); z-index: 2000;
+    padding: 40px; box-sizing: border-box;
 }
-
-button.standard:hover {
-    background: var(--accent);
-    color: black;
-    border-color: var(--accent);
-}
+.admin-open { display: block !important; }
+input { width: 100%; background: #000; border: 1px solid #333; color: white; padding: 10px; margin-bottom: 10px; }
