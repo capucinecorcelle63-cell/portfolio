@@ -47,26 +47,33 @@
         .eyebrow { color: var(--accent); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px; }
         h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 40px; }
 
-        /* KEYCHAIN SYSTEM */
+        .keychain-container {
+            position: relative; width: 300px; height: 350px;
+            display: flex; justify-content: center;
+        }
+
+        .keychain-ring {
+            width: 80px; height: 80px; border: 3px solid #333;
+            border-radius: 50%; position: absolute; top: 0; z-index: 10;
+        }
 
         .key {
-            position: absolute; top: 40px; left: 50%;
+            position: absolute; top: 60px; left: 50%;
             transform-origin: top center;
             background: #111; border: 1px solid #333;
             color: white; padding: 12px 20px;
             border-radius: 5px; cursor: pointer;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             white-space: nowrap; font-size: 0.7rem;
+            text-decoration: none; /* Pour les balises <a> */
         }
 
-        /* Position repos (éventail fermé) */
         .key1 { transform: translateX(-50%) rotate(-10deg); z-index: 5; }
         .key2 { transform: translateX(-50%) rotate(-5deg); z-index: 4; }
         .key3 { transform: translateX(-50%) rotate(0deg); z-index: 3; }
         .key4 { transform: translateX(-50%) rotate(5deg); z-index: 2; }
         .key5 { transform: translateX(-50%) rotate(10deg); z-index: 1; }
 
-        /* HOVER EFFECT (Éclatement) */
         .keychain-container:hover .key1 { transform: translateX(-140%) rotate(-25deg); }
         .keychain-container:hover .key2 { transform: translateX(-80%) rotate(-12deg); }
         .keychain-container:hover .key3 { transform: translateX(-50%) translateY(20px); }
@@ -75,22 +82,19 @@
 
         .key:hover { background: var(--accent) !important; color: black !important; z-index: 100 !important; }
 
-        /* SECTIONS */
-        section.content { padding: 100px 50px; border-top: 1px solid #111; }
-        h2 { color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px; }
-        
         /* ADMIN PANEL */
         #adminPanel {
             display: none; position: fixed; top: 0; right: 0;
             width: 350px; height: 100%; background: #111;
             border-left: 2px solid var(--accent); z-index: 2000;
-            padding: 40px; box-sizing: border-box;
+            padding: 40px; box-sizing: border-box; overflow-y: auto;
         }
         .admin-open { display: block !important; }
-        input, textarea {
+        input, textarea, select {
             width: 100%; background: #000; border: 1px solid #333;
             color: white; padding: 10px; margin: 10px 0; font-family: var(--mono);
         }
+        select { cursor: pointer; }
     </style>
 </head>
 <body>
@@ -111,42 +115,52 @@
             
             <div class="keychain-container">
                 <div class="keychain-ring"></div>
-                <div class="key key1" onclick="scrollToSec('product')">PRODUCT DESIGN</div>
-                <div class="key key2" onclick="scrollToSec('graphic')">GRAPHIC DESIGN</div>
-                <div class="key key3" onclick="scrollToSec('industrial')">INDUSTRIAL DESIGN</div>
-                <div class="key key4" onclick="scrollToSec('craft')">CRAFT & DESIGN</div>
-                <div class="key key5" onclick="scrollToSec('about')">ABOUT ME</div>
+                <a href="product.html" class="key key1">PRODUCT DESIGN</a>
+                <a href="graphic.html" class="key key2">GRAPHIC DESIGN</a>
+                <a href="industrial.html" class="key key3">INDUSTRIAL DESIGN</a>
+                <a href="craft.html" class="key key4">CRAFT & DESIGN</a>
+                <a href="#about" class="key key5">ABOUT ME</a>
             </div>
         </section>
 
-        <section id="product" class="content"><h2>PRODUCT DESIGN</h2><div class="grid" id="productGrid"></div></section>
-        <section id="graphic" class="content"><h2>GRAPHIC DESIGN</h2><div class="grid" id="graphicGrid"></div></section>
-        <section id="industrial" class="content"><h2>INDUSTRIAL DESIGN</h2><div class="grid" id="industrialGrid"></div></section>
-        <section id="craft" class="content"><h2>CRAFT & DESIGN</h2><div class="grid" id="craftGrid"></div></section>
-        <section id="about" class="content"><h2>ABOUT</h2><p>Product Designer graduate with a strong sensitivity to materials and a strategic approach to projects, I combine rigor, curiosity, and attention to detail, solutions. I enjoy working across disciplines, bringing people together around clear ideas, and I am now seeking a full-time designer position where I can contribute, collaborate, and continue to grow.to develop meaningful and well-crafted design.</p></section>
+        <section id="about" style="padding: 100px 50px; border-top: 1px solid #111;">
+            <h2 style="color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px;">ABOUT</h2>
+            <p>Product Designer graduate with a strong sensitivity to materials and a strategic approach to projects...</p>
+        </section>
     </main>
 
     <div id="adminPanel">
         <h3 style="color: var(--accent);">SETTINGS</h3>
         <p style="font-size: 0.7rem;">Enter credentials to modify archive.</p>
-        <input type="password" id="adminPass" placeholder="Password">
-        <button onclick="checkAdmin()" style="width: 100%; padding: 10px; background: var(--accent); border: none; cursor: pointer;">UNLOCK</button>
+        
+        <div id="loginSection">
+            <input type="password" id="adminPass" placeholder="Password">
+            <button onclick="checkAdmin()" style="width: 100%; padding: 10px; background: var(--accent); border: none; cursor: pointer; font-family: var(--mono);">UNLOCK</button>
+        </div>
         
         <div id="adminTools" style="display:none; margin-top: 30px;">
-            <p>Add Project</p>
-            <input type="text" placeholder="Project Title">
-            <textarea placeholder="Description"></textarea>
-            <button style="background: white; color: black; border: none; padding: 5px 10px;">PUBLISH</button>
+            <p style="color: var(--accent); font-size: 0.8rem;">ADD NEW PROJECT</p>
+            
+            <label style="font-size: 0.6rem;">CATEGORY</label>
+            <select id="projCategory">
+                <option value="product">Product Design</option>
+                <option value="graphic">Graphic Design</option>
+                <option value="industrial">Industrial Design</option>
+                <option value="craft">Craft & Design</option>
+            </select>
+
+            <input type="text" id="projTitle" placeholder="Project Title">
+            <input type="text" id="projImg" placeholder="Image URL (ex: img/projet1.jpg)">
+            <textarea id="projDesc" rows="4" placeholder="Project Description"></textarea>
+            
+            <button onclick="publishProject()" style="background: white; color: black; border: none; padding: 10px; width: 100%; cursor: pointer; font-family: var(--mono); font-weight: bold;">PUBLISH</button>
         </div>
+
         <br><br>
-        <button onclick="closeAdmin()" style="color: grey; background: none; border: none; cursor: pointer;">CLOSE</button>
+        <button onclick="closeAdmin()" style="color: grey; background: none; border: none; cursor: pointer; font-family: var(--mono);">CLOSE</button>
     </div>
 
     <script>
-        function scrollToSec(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
         function openAdmin() {
             document.getElementById('adminPanel').classList.add('admin-open');
         }
@@ -158,11 +172,28 @@
         function checkAdmin() {
             const pass = document.getElementById('adminPass').value;
             if(pass === "NUGGETS4LIFE") {
+                document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('adminTools').style.display = 'block';
-                alert("Access Granted. Welcome Capucine.");
             } else {
                 alert("Wrong password.");
             }
+        }
+
+        function publishProject() {
+            const title = document.getElementById('projTitle').value;
+            const category = document.getElementById('projCategory').value;
+            
+            if(title === "") {
+                alert("Please enter a title.");
+                return;
+            }
+
+            // Ici, nous ajouterons plus tard la logique pour sauvegarder dans une base de données
+            alert("Project '" + title + "' added to " + category + " category! (Database connection pending)");
+            
+            // Reset du formulaire
+            document.getElementById('projTitle').value = "";
+            document.getElementById('projDesc').value = "";
         }
     </script>
 </body>
