@@ -1,6 +1,3 @@
-/* ==========================================================================
-   RESET & BASE
-   ========================================================================== */
 :root {
     --accent: #f3d44d;
     --bg: #000000;
@@ -9,8 +6,7 @@
 }
 
 body, html {
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     background-color: var(--bg);
     color: var(--text);
     font-family: var(--mono);
@@ -18,92 +14,40 @@ body, html {
     overflow-x: hidden;
 }
 
-/* ==========================================================================
-   HEADER
-   ========================================================================== */
 .site-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 30px 40px;
-    position: fixed;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 1000;
-    background: linear-gradient(to bottom, black, transparent);
+    display: flex; justify-content: space-between;
+    padding: 30px 40px; position: fixed;
+    width: 100%; box-sizing: border-box; z-index: 1000;
 }
 
-.site-header a, .admin-trigger {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-family: var(--mono);
-    transition: color 0.3s;
-}
-
-.site-header a:hover, .admin-trigger:hover {
-    color: var(--accent);
-}
-
-/* ==========================================================================
-   HERO SECTION
-   ========================================================================== */
 .hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
 }
 
-.eyebrow { 
-    color: var(--accent); 
-    font-size: 0.7rem; 
-    letter-spacing: 2px; 
-    margin-bottom: 10px;
-}
-
-h1 { 
-    font-size: 2.5rem; 
-    font-weight: normal; 
-    margin-bottom: 20px;
-    text-transform: lowercase;
-}
-
-/* ==========================================================================
-   SYSTÈME DE PORTE-CLÉS (L'ÉVENTAIL)
-   ========================================================================== */
+/* SYSTÈME DE PORTE-CLÉS */
 .keychain-container {
     position: relative;
     width: 350px;
     height: 450px;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
 }
 
-/* Le support fixe (mousqueton) */
 .keychain-support {
-    width: 70px;
+    width: 80px;
     height: auto;
     z-index: 10;
-    pointer-events: none; /* La souris passe à travers pour cliquer les clés */
+    pointer-events: none;
 }
 
-/* Style commun des clés */
 .key-tag {
     position: absolute;
-    /* Ajuste ce top pour que le trou du PNG soit pile sur l'anneau du support */
-    top: 155px; 
+    top: 160px; /* Ajuste pour que le trou de la clé soit sur l'anneau */
     left: 50%;
     width: 110px; 
     cursor: pointer;
-    /* LE SECRET : Le pivot est en haut au centre de l'image (le trou de la clé) */
-    transform-origin: center 5px; 
+    transform-origin: center 5px; /* Pivot sur le trou en haut du PNG */
     transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -111,65 +55,26 @@ h1 {
     width: 100%;
     height: auto;
     display: block;
-    transition: filter 0.3s;
 }
 
-/* POSITIONS AU REPOS (Fermé / Groupé) */
-.key1 { transform: translateX(-50%) rotate(-4deg); z-index: 5; }
-.key2 { transform: translateX(-50%) rotate(-2deg); z-index: 4; }
+/* POSITIONS AU REPOS */
+.key1 { transform: translateX(-50%) rotate(-10deg); z-index: 5; }
+.key2 { transform: translateX(-50%) rotate(-5deg); z-index: 4; }
 .key3 { transform: translateX(-50%) rotate(0deg);  z-index: 3; }
-.key4 { transform: translateX(-50%) rotate(2deg);  z-index: 2; }
-.key5 { transform: translateX(-50%) rotate(4deg);  z-index: 1; }
+.key4 { transform: translateX(-50%) rotate(5deg);  z-index: 2; }
+.key5 { transform: translateX(-50%) rotate(10deg); z-index: 1; }
 
-/* EFFET HOVER (Ouverture naturelle en éventail) */
-.keychain-container:hover .key1 { transform: translateX(-50%) rotate(-65deg); }
-.keychain-container:hover .key2 { transform: translateX(-50%) rotate(-35deg); }
-.keychain-container:hover .key3 { transform: translateX(-50%) translateY(15px); }
-.keychain-container:hover .key4 { transform: translateX(-50%) rotate(35deg); }
-.keychain-container:hover .key5 { transform: translateX(-50%) rotate(65deg); }
+/* HOVER EFFECT (Éclatement) */
+.keychain-container:hover .key1 { transform: translateX(-140%) rotate(-25deg); }
+.keychain-container:hover .key2 { transform: translateX(-80%) rotate(-12deg); }
+.keychain-container:hover .key3 { transform: translateX(-50%) translateY(20px); }
+.keychain-container:hover .key4 { transform: translateX(-20%) rotate(12deg); }
+.keychain-container:hover .key5 { transform: translateX(40%) rotate(25deg); }
 
-/* Animation spécifique quand on survole UNE seule clé */
 .key-tag:hover {
     z-index: 100 !important;
-    filter: brightness(1.2) drop-shadow(0 0 15px rgba(243, 212, 77, 0.4));
+    filter: brightness(1.2) drop-shadow(0 0 15px var(--accent));
 }
 
-/* ==========================================================================
-   SECTIONS DE CONTENU & GRILLE
-   ========================================================================== */
-.content-sec {
-    padding: 100px 50px;
-    border-top: 1px solid #222;
-}
-
-h2 { 
-    color: var(--accent); 
-    border-left: 3px solid var(--accent);
-    padding-left: 15px;
-    font-size: 1.2rem;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-}
-
-/* Boutons classiques (si besoin ailleurs) */
-button.standard {
-    background: transparent;
-    border: 1px solid #333;
-    color: white;
-    padding: 8px 15px;
-    cursor: pointer;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    transition: 0.3s;
-}
-
-button.standard:hover {
-    background: var(--accent);
-    color: black;
-    border-color: var(--accent);
-}
+.content-sec { padding: 100px 50px; border-top: 1px solid #222; }
+h2 { color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px; }
