@@ -1,80 +1,41 @@
-:root {
-    --accent: #f3d44d;
-    --bg: #000000;
-    --text: #ffffff;
-    --mono: 'Space Mono', monospace;
+// Fonction pour scroller proprement
+function scrollToSec(id) {
+    const target = document.getElementById(id);
+    if(target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
-body, html {
-    margin: 0; padding: 0;
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+// Animation au clic (la clé s'agite avant de descendre)
+function handleKeyClick(element, sectionId) {
+    element.animate([
+        { transform: element.style.transform + ' scale(1)' },
+        { transform: element.style.transform + ' scale(1.1) rotate(10deg)' },
+        { transform: element.style.transform + ' scale(1)' }
+    ], {
+        duration: 300,
+        easing: 'ease-in-out'
+    });
+
+    setTimeout(() => {
+        scrollToSec(sectionId);
+    }, 200);
 }
 
-.site-header {
-    display: flex; justify-content: space-between;
-    padding: 30px 40px; position: fixed;
-    width: 100%; box-sizing: border-box; z-index: 1000;
-}
-
-.hero {
-    height: 100vh; display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-}
-
-/* SYSTÈME DE PORTE-CLÉS */
-.keychain-container {
-    position: relative;
-    width: 350px;
-    height: 450px;
-    display: flex;
-    justify-content: center;
-}
-
-.keychain-support {
-    width: 80px;
-    height: auto;
-    z-index: 10;
-    pointer-events: none;
-}
-
-.key-tag {
-    position: absolute;
-    top: 160px; /* Ajuste pour que le trou de la clé soit sur l'anneau */
-    left: 50%;
-    width: 110px; 
-    cursor: pointer;
-    transform-origin: center 5px; /* Pivot sur le trou en haut du PNG */
-    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.key-tag img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* POSITIONS AU REPOS */
-.key1 { transform: translateX(-50%) rotate(-10deg); z-index: 5; }
-.key2 { transform: translateX(-50%) rotate(-5deg); z-index: 4; }
-.key3 { transform: translateX(-50%) rotate(0deg);  z-index: 3; }
-.key4 { transform: translateX(-50%) rotate(5deg);  z-index: 2; }
-.key5 { transform: translateX(-50%) rotate(10deg); z-index: 1; }
-
-/* HOVER EFFECT (Éclatement) */
-.keychain-container:hover .key1 { transform: translateX(-140%) rotate(-25deg); }
-.keychain-container:hover .key2 { transform: translateX(-80%) rotate(-12deg); }
-.keychain-container:hover .key3 { transform: translateX(-50%) translateY(20px); }
-.keychain-container:hover .key4 { transform: translateX(-20%) rotate(12deg); }
-.keychain-container:hover .key5 { transform: translateX(40%) rotate(25deg); }
-
-.key-tag:hover {
-    z-index: 100 !important;
-    filter: brightness(1.2) drop-shadow(0 0 15px var(--accent));
-}
-
-.content-sec { padding: 100px 50px; border-top: 1px solid #222; }
-h2 { color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px; }
+// Balancement initial des clés au chargement de la page
+window.addEventListener('DOMContentLoaded', () => {
+    const tags = document.querySelectorAll('.key-tag');
+    tags.forEach((tag, index) => {
+        const delay = index * 150;
+        tag.animate([
+            { transform: 'translateX(-50%) rotate(0deg)' },
+            { transform: 'translateX(-50%) rotate(15deg)' },
+            { transform: 'translateX(-50%) rotate(-10deg)' },
+            { transform: 'translateX(-50%) rotate(0deg)' }
+        ], {
+            duration: 1500,
+            delay: delay,
+            easing: 'ease-in-out'
+        });
+    });
+});
