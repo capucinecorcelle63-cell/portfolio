@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capucine's Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         :root {
             --accent: #f3d44d;
@@ -48,6 +47,7 @@
         .eyebrow { color: var(--accent); font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 10px; }
         h1 { font-size: 2.5rem; font-weight: normal; margin-bottom: 40px; }
 
+        /* KEYCHAIN SYSTEM */
         .keychain-container {
             position: relative; width: 300px; height: 350px;
             display: flex; justify-content: center;
@@ -61,15 +61,16 @@
             border-radius: 5px; cursor: pointer;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             white-space: nowrap; font-size: 0.7rem;
-            text-decoration: none;
         }
 
+        /* Position repos (éventail fermé) */
         .key1 { transform: translateX(-50%) rotate(-10deg); z-index: 5; }
         .key2 { transform: translateX(-50%) rotate(-5deg); z-index: 4; }
         .key3 { transform: translateX(-50%) rotate(0deg); z-index: 3; }
         .key4 { transform: translateX(-50%) rotate(5deg); z-index: 2; }
         .key5 { transform: translateX(-50%) rotate(10deg); z-index: 1; }
 
+        /* HOVER EFFECT (Éclatement) */
         .keychain-container:hover .key1 { transform: translateX(-140%) rotate(-25deg); }
         .keychain-container:hover .key2 { transform: translateX(-80%) rotate(-12deg); }
         .keychain-container:hover .key3 { transform: translateX(-50%) translateY(20px); }
@@ -77,6 +78,23 @@
         .keychain-container:hover .key5 { transform: translateX(40%) rotate(25deg); }
 
         .key:hover { background: var(--accent) !important; color: black !important; z-index: 100 !important; }
+
+        /* SECTIONS */
+        section.content { padding: 100px 50px; border-top: 1px solid #111; }
+        h2 { color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px; }
+        
+        /* ADMIN PANEL */
+        #adminPanel {
+            display: none; position: fixed; top: 0; right: 0;
+            width: 350px; height: 100%; background: #111;
+            border-left: 2px solid var(--accent); z-index: 2000;
+            padding: 40px; box-sizing: border-box;
+        }
+        .admin-open { display: block !important; }
+        input, textarea {
+            width: 100%; background: #000; border: 1px solid #333;
+            color: white; padding: 10px; margin: 10px 0; font-family: var(--mono);
+        }
     </style>
 </head>
 <body>
@@ -86,7 +104,7 @@
         <nav>
             <a href="#about">ABOUT</a>
             <a href="mailto:hello@capucine.com">CONTACT</a>
-            <a href="/admin/" class="admin-trigger">SETTINGS</a>
+            <button class="admin-trigger" onclick="openAdmin()">SETTINGS</button>
         </nav>
     </header>
 
@@ -97,30 +115,58 @@
             
             <div class="keychain-container">
                 <div class="keychain-ring"></div>
-                <a href="product.html" class="key key1">PRODUCT DESIGN</a>
-                <a href="graphic.html" class="key key2">GRAPHIC DESIGN</a>
-                <a href="industrial.html" class="key key3">INDUSTRIAL DESIGN</a>
-                <a href="craft.html" class="key key4">CRAFT & DESIGN</a>
-                <a href="#about" class="key key5">ABOUT ME</a>
+                <div class="key key1" onclick="scrollToSec('product')">PRODUCT DESIGN</div>
+                <div class="key key2" onclick="scrollToSec('graphic')">GRAPHIC DESIGN</div>
+                <div class="key key3" onclick="scrollToSec('industrial')">INDUSTRIAL DESIGN</div>
+                <div class="key key4" onclick="scrollToSec('craft')">CRAFT & DESIGN</div>
+                <div class="key key5" onclick="scrollToSec('about')">ABOUT ME</div>
             </div>
         </section>
 
-        <section id="about" style="padding: 100px 50px; border-top: 1px solid #111;">
-            <h2 style="color: var(--accent); border-left: 3px solid var(--accent); padding-left: 15px;">ABOUT</h2>
-            <p>Product Designer graduate...</p>
-        </section>
+        <section id="product" class="content"><h2>PRODUCT DESIGN</h2><div class="grid" id="productGrid"></div></section>
+        <section id="graphic" class="content"><h2>GRAPHIC DESIGN</h2><div class="grid" id="graphicGrid"></div></section>
+        <section id="industrial" class="content"><h2>INDUSTRIAL DESIGN</h2><div class="grid" id="industrialGrid"></div></section>
+        <section id="craft" class="content"><h2>CRAFT & DESIGN</h2><div class="grid" id="craftGrid"></div></section>
+        <section id="about" class="content"><h2>ABOUT</h2><p>Product Designer graduate with a strong sensitivity to materials and a strategic approach to projects, I combine rigor, curiosity, and attention to detail, solutions. I enjoy working across disciplines, bringing people together around clear ideas, and I am now seeking a full-time designer position where I can contribute, collaborate, and continue to grow.to develop meaningful and well-crafted design.</p></section>
     </main>
 
+    <div id="adminPanel">
+        <h3 style="color: var(--accent);">SETTINGS</h3>
+        <p style="font-size: 0.7rem;">Enter credentials to modify archive.</p>
+        <input type="password" id="adminPass" placeholder="Password">
+        <button onclick="checkAdmin()" style="width: 100%; padding: 10px; background: var(--accent); border: none; cursor: pointer;">UNLOCK</button>
+        
+        <div id="adminTools" style="display:none; margin-top: 30px;">
+            <p>Add Project</p>
+            <input type="text" placeholder="Project Title">
+            <textarea placeholder="Description"></textarea>
+            <button style="background: white; color: black; border: none; padding: 5px 10px;">PUBLISH</button>
+        </div>
+        <br><br>
+        <button onclick="closeAdmin()" style="color: grey; background: none; border: none; cursor: pointer;">CLOSE</button>
+    </div>
+
     <script>
-        // Ce petit script permet de rediriger l'utilisateur après sa connexion via Netlify Identity
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        document.location.href = "/admin/";
-                    });
-                }
-            });
+        function scrollToSec(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openAdmin() {
+            document.getElementById('adminPanel').classList.add('admin-open');
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminPanel').classList.remove('admin-open');
+        }
+
+        function checkAdmin() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === "NUGGETS4LIFE") {
+                document.getElementById('adminTools').style.display = 'block';
+                alert("Access Granted. Welcome Capucine.");
+            } else {
+                alert("Wrong password.");
+            }
         }
     </script>
 </body>
