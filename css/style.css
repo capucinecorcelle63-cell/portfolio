@@ -1,41 +1,58 @@
-// Fonction pour scroller proprement
-function scrollToSec(id) {
-    const target = document.getElementById(id);
-    if(target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-    }
+/* Conteneur principal */
+.keychain-container {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
 }
 
-// Animation au clic (la clé s'agite avant de descendre)
-function handleKeyClick(element, sectionId) {
-    element.animate([
-        { transform: element.style.transform + ' scale(1)' },
-        { transform: element.style.transform + ' scale(1.1) rotate(10deg)' },
-        { transform: element.style.transform + ' scale(1)' }
-    ], {
-        duration: 300,
-        easing: 'ease-in-out'
-    });
-
-    setTimeout(() => {
-        scrollToSec(sectionId);
-    }, 200);
+/* Ton anneau */
+.keychain-support {
+    position: absolute;
+    top: 0;
+    width: 80px; /* À ajuster selon la taille de ton PNG */
+    z-index: 10;
 }
 
-// Balancement initial des clés au chargement de la page
-window.addEventListener('DOMContentLoaded', () => {
-    const tags = document.querySelectorAll('.key-tag');
-    tags.forEach((tag, index) => {
-        const delay = index * 150;
-        tag.animate([
-            { transform: 'translateX(-50%) rotate(0deg)' },
-            { transform: 'translateX(-50%) rotate(15deg)' },
-            { transform: 'translateX(-50%) rotate(-10deg)' },
-            { transform: 'translateX(-50%) rotate(0deg)' }
-        ], {
-            duration: 1500,
-            delay: delay,
-            easing: 'ease-in-out'
-        });
-    });
-});
+/* Style des clés */
+.key-tag {
+    position: absolute;
+    top: 40px; /* Positionne le trou de la clé sur l'anneau */
+    left: 50%;
+    width: 120px; /* Largeur de tes clés PNG */
+    margin-left: -60px; /* Moitié de la largeur pour centrer parfaitement */
+    
+    /* LE PIVOT : pile au centre horizontal, et légèrement vers le bas pour le trou */
+    transform-origin: center 10px; 
+    
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor: pointer;
+}
+
+.key-tag img {
+    width: 100%;
+    height: auto;
+}
+
+/* POSITIONS AU REPOS (Légèrement décalées pour le réalisme) */
+.key1 { transform: rotate(-5deg); z-index: 5; }
+.key2 { transform: rotate(-2deg); z-index: 4; }
+.key3 { transform: rotate(0deg);  z-index: 3; }
+.key4 { transform: rotate(2deg);  z-index: 2; }
+.key5 { transform: rotate(5deg);  z-index: 1; }
+
+/* EFFET HOVER (Éventail naturel) */
+.keychain-container:hover .key1 { transform: rotate(-50deg); }
+.keychain-container:hover .key2 { transform: rotate(-25deg); }
+.keychain-container:hover .key3 { transform: translateY(10px); } /* La clé du milieu descend un peu */
+.keychain-container:hover .key4 { transform: rotate(25deg); }
+.keychain-container:hover .key5 { transform: rotate(50deg); }
+
+/* Mise en avant de la clé survolée */
+.key-tag:hover {
+    z-index: 100 !important;
+    filter: drop-shadow(0 10px 15px rgba(243, 212, 77, 0.3));
+    scale: 1.05; /* Un léger zoom pour l'interactivité */
+}
