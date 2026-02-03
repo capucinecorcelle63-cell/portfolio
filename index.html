@@ -53,6 +53,11 @@
             display: flex; justify-content: center;
         }
 
+        .keychain-ring {
+            width: 80px; height: 80px; border: 3px solid #333;
+            border-radius: 50%; position: absolute; top: 0; z-index: 10;
+        }
+
         .key {
             position: absolute; top: 60px; left: 50%;
             transform-origin: top center;
@@ -114,23 +119,14 @@
             <h1>capucine's portfolio</h1>
             
             <div class="keychain-container">
-    <img src="support.png" class="keychain-support" alt="Ring">
-
-    <div class="key-tag key1" onclick="scrollToSec('product')">
-        <img src="key1.png" alt="Product Design">
-    </div>
-    <div class="key-tag key2" onclick="scrollToSec('graphic')">
-        <img src="key2.png" alt="Graphic Design">
-    </div>
-    <div class="key-tag key3" onclick="scrollToSec('industrial')">
-        <img src="key3.png" alt="Industrial Design">
-    </div>
-    <div class="key-tag key4" onclick="scrollToSec('craft')">
-        <img src="key4.png" alt="Craft & Design">
-    </div>
-    <div class="key-tag key5" onclick="scrollToSec('about')">
-        <img src="key5.png" alt="About Me">
-    </div>
+                <div class="keychain-ring"></div>
+                <div class="key key1" onclick="scrollToSec('product')">PRODUCT DESIGN</div>
+                <div class="key key2" onclick="scrollToSec('graphic')">GRAPHIC DESIGN</div>
+                <div class="key key3" onclick="scrollToSec('industrial')">INDUSTRIAL DESIGN</div>
+                <div class="key key4" onclick="scrollToSec('craft')">CRAFT & DESIGN</div>
+                <div class="key key5" onclick="scrollToSec('about')">ABOUT ME</div>
+            </div>
+        </section>
 
         <section id="product" class="content"><h2>PRODUCT DESIGN</h2><div class="grid" id="productGrid"></div></section>
         <section id="graphic" class="content"><h2>GRAPHIC DESIGN</h2><div class="grid" id="graphicGrid"></div></section>
