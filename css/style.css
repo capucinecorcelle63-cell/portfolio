@@ -1,12 +1,20 @@
 /* ==========================================================================
-   RESET & BASE
+   VARIABLES & BASE
    ========================================================================== */
 :root {
     --accent: #f3d44d;
-    --bg: #000000;
+    --bg: #0b0b0c;
+    --bg-soft: #111114;
     --text: #ffffff;
+    --muted: #b8b8b8;
     --mono: 'Space Mono', monospace;
+    --display: 'Sora', sans-serif;
+    --ring: rgba(243, 212, 77, 0.15);
+    --glow: rgba(243, 212, 77, 0.45);
+    --shadow: rgba(0, 0, 0, 0.55);
 }
+
+* { box-sizing: border-box; }
 
 body, html {
     margin: 0;
@@ -18,145 +26,357 @@ body, html {
     overflow-x: hidden;
 }
 
+a { color: inherit; text-decoration: none; }
+
 /* ==========================================================================
    HEADER
    ========================================================================== */
 .site-header {
     display: flex;
     justify-content: space-between;
-    padding: 30px 40px;
+    padding: 28px 40px;
     position: fixed;
     width: 100%;
     box-sizing: border-box;
     z-index: 1000;
-    background: linear-gradient(to bottom, black, transparent);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
+    backdrop-filter: blur(8px);
 }
 
-.site-header a, .admin-trigger {
+.brand {
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 1.6px;
+}
+
+.site-nav a, .admin-trigger {
     color: white;
     text-decoration: none;
     margin-left: 20px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     cursor: pointer;
     background: none;
     border: none;
     font-family: var(--mono);
-    transition: color 0.3s;
+    transition: color 0.3s ease;
 }
 
-.site-header a:hover, .admin-trigger:hover {
+.site-nav a:hover, .admin-trigger:hover {
     color: var(--accent);
 }
 
 /* ==========================================================================
-   HERO SECTION
+   HERO / SCENE
    ========================================================================== */
 .hero {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding-top: 80px;
 }
 
-.eyebrow { 
-    color: var(--accent); 
-    font-size: 0.7rem; 
-    letter-spacing: 2px; 
+.eyebrow {
+    color: var(--accent);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
     margin-bottom: 10px;
 }
 
-h1 { 
-    font-size: 2.5rem; 
-    font-weight: normal; 
+h1 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 500;
     margin-bottom: 20px;
     text-transform: lowercase;
 }
 
-/* ==========================================================================
-   SYSTÈME DE PORTE-CLÉS (L'ÉVENTAIL)
-   ========================================================================== */
-.keychain-container {
+.scene {
     position: relative;
-    width: 350px;
-    height: 450px;
+    width: min(92vw, 720px);
+    height: min(70vh, 520px);
     display: flex;
+    align-items: center;
     justify-content: center;
     margin-top: 20px;
+    perspective: 900px;
 }
 
-/* Le support fixe (mousqueton) */
+.scene-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(243, 212, 77, 0.07), transparent 40%),
+                radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.06), transparent 45%);
+    filter: blur(0.2px);
+    border-radius: 30px;
+}
+
+.keychain-container {
+    position: relative;
+    width: 420px;
+    height: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    transform-style: preserve-3d;
+}
+
 .keychain-support {
-    width: 100px;
+    width: 120px;
     height: auto;
     z-index: 20;
-    pointer-events: none; /* La souris passe à travers pour cliquer les clés */
+    pointer-events: none;
+    filter: drop-shadow(0 10px 20px var(--shadow));
 }
 
-/* Style commun des clés */
 .key-tag {
     position: absolute;
-    /* Ajuste ce top pour que le trou du PNG soit pile sur l'anneau du support */
-    top: 155px; 
+    top: 150px;
     left: 50%;
-    width: 110px; 
+    width: 120px;
     cursor: pointer;
-    /* LE SECRET : Le pivot est en haut au centre de l'image (le trou de la clé) */
-    transform-origin: center 5px; 
-    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-origin: center 6px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1),
+                filter 0.3s ease,
+                opacity 0.3s ease;
 }
 
 .key-tag img {
     width: 100%;
     height: auto;
     display: block;
-    transition: filter 0.3s;
+    filter: drop-shadow(0 12px 18px var(--shadow));
+    transition: transform 0.4s ease, filter 0.3s ease;
 }
 
-/* POSITIONS AU REPOS (Fermé / Groupé) */
-.key1 { transform: translateX(-50%) rotate(-4deg); z-index: 5; }
-.key2 { transform: translateX(-50%) rotate(-2deg); z-index: 4; }
-.key3 { transform: translateX(-50%) rotate(0deg);  z-index: 3; }
-.key4 { transform: translateX(-50%) rotate(2deg);  z-index: 2; }
-.key5 { transform: translateX(-50%) rotate(4deg);  z-index: 1; }
+.key-label {
+    position: absolute;
+    left: 50%;
+    bottom: -34px;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    letter-spacing: 1.3px;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
-/* EFFET HOVER (Ouverture naturelle en éventail) */
-.keychain-container:hover .key1 { transform: translateX(-50%) rotate(-75deg); }
-.keychain-container:hover .key2 { transform: translateX(-50%) rotate(-45deg); }
-.keychain-container:hover .key3 { transform: translateX(-50%) translateY(25px); }
-.keychain-container:hover .key4 { transform: translateX(-50%) rotate(45deg); }
-.keychain-container:hover .key5 { transform: translateX(-50%) rotate(75deg); }
+.key-tag:hover .key-label {
+    opacity: 1;
+}
 
-/* Animation spécifique quand on survole UNE seule clé */
-.key-tag:hover {
-    z-index: 100 !important;
-    filter: brightness(1.2) drop-shadow(0 0 15px rgba(243, 212, 77, 0.4));
+/* Positions au repos */
+.key1 { transform: translateX(-50%) rotate(-10deg) translateZ(10px); z-index: 5; }
+.key2 { transform: translateX(-50%) rotate(-4deg) translateZ(6px); z-index: 4; }
+.key3 { transform: translateX(-50%) rotate(0deg) translateZ(2px);  z-index: 3; }
+.key4 { transform: translateX(-50%) rotate(4deg) translateZ(4px);  z-index: 2; }
+.key5 { transform: translateX(-50%) rotate(10deg) translateZ(8px); z-index: 1; }
+
+/* Eventail au hover du groupe */
+.keychain-container:hover .key1 { transform: translateX(-50%) rotate(-55deg) translateZ(18px); }
+.keychain-container:hover .key2 { transform: translateX(-50%) rotate(-28deg) translateZ(14px); }
+.keychain-container:hover .key3 { transform: translateX(-50%) translateY(22px) translateZ(10px); }
+.keychain-container:hover .key4 { transform: translateX(-50%) rotate(28deg) translateZ(14px); }
+.keychain-container:hover .key5 { transform: translateX(-50%) rotate(55deg) translateZ(18px); }
+
+.key-tag:hover img {
+    transform: scale(1.04) rotate(-1deg);
+    filter: brightness(1.15) drop-shadow(0 0 18px var(--glow));
+}
+
+.hero-hint {
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-top: 10px;
 }
 
 /* ==========================================================================
-   SECTIONS DE CONTENU & GRILLE
+   CONTENT SECTIONS
    ========================================================================== */
 .content-sec {
     padding: 100px 50px;
-    border-top: 1px solid #222;
+    border-top: 1px solid #1c1c1f;
+    background: linear-gradient(180deg, rgba(11,11,12,0.9), rgba(11,11,12,0.98));
 }
 
-h2 { 
-    color: var(--accent); 
+h2 {
+    color: var(--accent);
     border-left: 3px solid var(--accent);
     padding-left: 15px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
     margin-top: 40px;
 }
 
-/* Boutons classiques (si besoin ailleurs) */
+.card {
+    border: 1px solid #1b1b1b;
+    background: #0f0f12;
+    padding: 20px;
+    border-radius: 12px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+}
+
+.card-title {
+    font-family: var(--display);
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.card-meta {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--muted);
+}
+
+/* ==========================================================================
+   PROJECT OVERLAY
+   ========================================================================== */
+.project-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-overlay.active { display: flex; }
+
+.overlay-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+}
+
+.overlay-content {
+    position: relative;
+    z-index: 2;
+    width: min(90vw, 520px);
+    background: #0f0f12;
+    border: 1px solid #242424;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    animation: overlayIn 0.4s ease both;
+}
+
+.overlay-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.overlay-content h3 {
+    font-family: var(--display);
+    margin: 0 0 10px 0;
+}
+
+.overlay-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.overlay-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 3;
+    background: none;
+    border: 1px solid #333;
+    color: white;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.overlay-close:hover {
+    background: var(--accent);
+    color: black;
+    border-color: var(--accent);
+}
+
+@keyframes overlayIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   ADMIN PANEL
+   ========================================================================== */
+#adminPanel {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 340px;
+    height: 100%;
+    background: #111;
+    border-left: 2px solid var(--accent);
+    z-index: 2000;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.admin-open { display: block !important; }
+
+.admin-title { color: var(--accent); }
+
+.admin-caption { font-size: 0.7rem; color: var(--muted); }
+
+.admin-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+    font-family: var(--mono);
+}
+
+.admin-tools { display: none; margin-top: 30px; }
+
+.admin-close {
+    color: grey;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+input, textarea {
+    width: 100%;
+    background: #000;
+    border: 1px solid #333;
+    color: white;
+    padding: 10px;
+    margin: 10px 0;
+    font-family: var(--mono);
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
 button.standard {
     background: transparent;
     border: 1px solid #333;
@@ -172,4 +392,36 @@ button.standard:hover {
     background: var(--accent);
     color: black;
     border-color: var(--accent);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 768px) {
+    .site-header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .scene { height: 60vh; }
+
+    .keychain-container {
+        width: 300px;
+        height: 400px;
+    }
+
+    .key-tag {
+        width: 95px;
+        top: 140px;
+    }
+
+    .key-label { bottom: -26px; }
+
+    .content-sec { padding: 80px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
 }
