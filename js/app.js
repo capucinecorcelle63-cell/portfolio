@@ -4,6 +4,11 @@ const overlayDesc = document.getElementById('overlayDesc');
 const overlayType = document.getElementById('overlayType');
 const overlayScrollBtn = document.getElementById('overlayScrollBtn');
 
+const adminList = document.getElementById('adminList');
+const adminAddBtn = document.getElementById('adminAddBtn');
+
+const STORAGE_KEY = 'capucine_projects_v1';
+
 const projects = {
     product: {
         title: 'Product Design',
@@ -34,30 +39,87 @@ const projects = {
 
 const gridContent = {
     product: [
-        { title: 'Project Title', meta: 'Material exploration · 2024' },
-        { title: 'Project Title', meta: 'User-centered concept · 2023' }
+        { id: 'p1', title: 'Project Title', meta: 'Material exploration · 2024', image: '' },
+        { id: 'p2', title: 'Project Title', meta: 'User-centered concept · 2023', image: '' }
     ],
     graphic: [
-        { title: 'Project Title', meta: 'Identity system · 2024' }
+        { id: 'g1', title: 'Project Title', meta: 'Identity system · 2024', image: '' }
     ],
     industrial: [
-        { title: 'Project Title', meta: 'Prototype & testing · 2023' }
+        { id: 'i1', title: 'Project Title', meta: 'Prototype & testing · 2023', image: '' }
     ],
     craft: [
-        { title: 'Project Title', meta: 'Crafted object · 2022' }
+        { id: 'c1', title: 'Project Title', meta: 'Crafted object · 2022', image: '' }
     ]
 };
 
+function loadUserProjects() {
+    try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch (err) {
+        console.warn('Could not load projects', err);
+        return [];
+    }
+}
+
+function saveUserProjects(list) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+}
+
 function renderGrid(id, items) {
     const grid = document.getElementById(id);
-    if (!grid || !items?.length) return;
+    if (!grid) return;
 
-    grid.innerHTML = items.map(item => (
-        `<article class="card">
-            <div class="card-title">${item.title}</div>
-            <div class="card-meta">${item.meta}</div>
-        </article>`
-    )).join('');
+    grid.innerHTML = items.map(item => {
+        const imageMarkup = item.image
+            ? `<div class="card-image"><img src="${item.image}" alt="${item.title}"></div>`
+            : `<div class="card-image"></div>`;
+
+        return (`<article class="card">
+            ${imageMarkup}
+            <div>
+                <div class="card-title">${item.title}</div>
+                <div class="card-meta">${item.meta || ''}</div>
+            </div>
+        </article>`);
+    }).join('');
+}
+
+function renderAllGrids() {
+    const userProjects = loadUserProjects();
+
+    Object.keys(gridContent).forEach(section => {
+        const combined = [...gridContent[section], ...userProjects.filter(p => p.category === section)];
+        renderGrid(section + 'Grid', combined);
+    });
+}
+
+function addProjectToList(project) {
+    const item = document.createElement('div');
+    item.className = 'admin-item';
+    item.innerHTML = `<div>
+        <strong>${project.title}</strong><br>
+        <span>${project.category}</span>
+    </div>`;
+
+    const del = document.createElement('button');
+    del.className = 'admin-delete';
+    del.textContent = 'DELETE';
+    del.addEventListener('click', () => {
+        const list = loadUserProjects().filter(p => p.id !== project.id);
+        saveUserProjects(list);
+        renderAdminList();
+        renderAllGrids();
+    });
+
+    item.appendChild(del);
+    adminList.appendChild(item);
+}
+
+function renderAdminList() {
+    adminList.innerHTML = '';
+    const list = loadUserProjects();
+    list.forEach(addProjectToList);
 }
 
 function scrollToSec(id) {
@@ -92,12 +154,13 @@ function closeOverlay() {
 }
 
 function handleKeyClick(element, sectionId) {
+    const baseTransform = getComputedStyle(element).transform;
     element.animate([
-        { transform: element.style.transform + ' scale(1)' },
-        { transform: element.style.transform + ' scale(1.08) rotate(8deg)' },
-        { transform: element.style.transform + ' scale(1)' }
+        { transform: baseTransform },
+        { transform: baseTransform + ' scale(1.03)' },
+        { transform: baseTransform }
     ], {
-        duration: 300,
+        duration: 260,
         easing: 'ease-in-out'
     });
 
@@ -106,8 +169,67 @@ function handleKeyClick(element, sectionId) {
     }, 180);
 }
 
-// Parallax léger
+function getAdminFormData() {
+    return {
+        category: document.getElementById('adminCategory').value,
+        title: document.getElementById('adminTitle').value.trim(),
+        desc: document.getElementById('adminDesc').value.trim(),
+        imageUrl: document.getElementById('adminImage').value.trim(),
+        file: document.getElementById('adminFile').files[0]
+    };
+}
+
+function resetAdminForm() {
+    document.getElementById('adminTitle').value = '';
+    document.getElementById('adminDesc').value = '';
+    document.getElementById('adminImage').value = '';
+    document.getElementById('adminFile').value = '';
+}
+
+function buildProjectPayload(formData, imageDataUrl) {
+    return {
+        id: `u_${Date.now()}`,
+        category: formData.category,
+        title: formData.title || 'Untitled Project',
+        meta: formData.desc || '',
+        image: imageDataUrl || formData.imageUrl || ''
+    };
+}
+
+function handleAddProject() {
+    const formData = getAdminFormData();
+    if (!formData.title && !formData.desc && !formData.imageUrl && !formData.file) {
+        alert('Please add at least a title, description, or image.');
+        return;
+    }
+
+    if (formData.file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const project = buildProjectPayload(formData, reader.result);
+            const list = loadUserProjects();
+            list.push(project);
+            saveUserProjects(list);
+            renderAdminList();
+            renderAllGrids();
+            resetAdminForm();
+        };
+        reader.readAsDataURL(formData.file);
+        return;
+    }
+
+    const project = buildProjectPayload(formData, '');
+    const list = loadUserProjects();
+    list.push(project);
+    saveUserProjects(list);
+    renderAdminList();
+    renderAllGrids();
+    resetAdminForm();
+}
+
+// Parallax léger + swing des clés
 const scene = document.querySelector('.scene');
+const keyTags = Array.from(document.querySelectorAll('.key-tag'));
 let parallaxTarget = { x: 0, y: 0 };
 let parallaxCurrent = { x: 0, y: 0 };
 
@@ -115,7 +237,17 @@ function onMouseMove(e) {
     const rect = scene.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    parallaxTarget = { x: x * 12, y: y * 12 };
+    parallaxTarget = { x: x * 8, y: y * 8 };
+
+    keyTags.forEach((key, index) => {
+        const factor = 1 + (index - 2) * 0.08;
+        const swing = x * 10 * factor;
+        key.style.setProperty('--swing', `${swing}deg`);
+    });
+}
+
+function resetSwing() {
+    keyTags.forEach(key => key.style.setProperty('--swing', '0deg'));
 }
 
 function animateParallax() {
@@ -129,26 +261,15 @@ function animateParallax() {
 function introSwing() {
     const tags = document.querySelectorAll('.key-tag');
     tags.forEach((tag, index) => {
-        const delay = index * 140;
-        tag.animate([
-            { transform: 'translateX(-50%) rotate(0deg)' },
-            { transform: 'translateX(-50%) rotate(12deg)' },
-            { transform: 'translateX(-50%) rotate(-8deg)' },
-            { transform: 'translateX(-50%) rotate(0deg)' }
-        ], {
-            duration: 1400,
-            delay: delay,
-            easing: 'ease-in-out'
-        });
+        tag.style.animationDelay = `${index * 140}ms`;
+        tag.classList.add('intro-swing');
     });
 }
 
 window.addEventListener('DOMContentLoaded', () => {
     introSwing();
-    renderGrid('productGrid', gridContent.product);
-    renderGrid('graphicGrid', gridContent.graphic);
-    renderGrid('industrialGrid', gridContent.industrial);
-    renderGrid('craftGrid', gridContent.craft);
+    renderAllGrids();
+    renderAdminList();
 
     const tags = document.querySelectorAll('.key-tag');
     tags.forEach(tag => {
@@ -161,7 +282,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (scene) {
         scene.addEventListener('mousemove', onMouseMove);
+        scene.addEventListener('mouseleave', resetSwing);
         animateParallax();
+    }
+
+    if (adminAddBtn) {
+        adminAddBtn.addEventListener('click', handleAddProject);
     }
 });
 
