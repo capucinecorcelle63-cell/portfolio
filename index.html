@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capucine's Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-strip">
+            <div class="nav-left">
+                <a class="nav-title" href="#home">capucine's portfolio</a>
+            </div>
+            <div class="nav-right">
+                <a href="#about">About</a>
+                <a href="mailto:capucine.designer@gmail.com">Contact</a>
+                <button class="admin-trigger" onclick="openAdmin()">Settings</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="category-list" id="home" aria-label="Categories">
+            <a class="category-row cat-about" href="#about">
+                <span class="category-title">About</span>
+                <span class="category-num">01</span>
+            </a>
+            <a class="category-row cat-product" href="#product">
+                <span class="category-title">Product</span>
+                <span class="category-num">02</span>
+            </a>
+            <a class="category-row cat-industrial" href="#industrial">
+                <span class="category-title">Industrial</span>
+                <span class="category-num">03</span>
+            </a>
+            <a class="category-row cat-graphic" href="#graphic">
+                <span class="category-title">Graphic</span>
+                <span class="category-num">04</span>
+            </a>
+            <a class="category-row cat-craft" href="#craft">
+                <span class="category-title">Craft</span>
+                <span class="category-num">05</span>
+            </a>
+        </section>
+
+        <section class="category-section" id="about">
+            <div class="section-head">
+                <h2>ABOUT</h2>
+                <p data-section-desc="about">Product Designer graduate with a strong sensitivity to materials and a strategic approach to projects. I combine rigor, curiosity, and attention to detail, and I enjoy working across disciplines to build clear, crafted solutions.</p>
+            </div>
+            <div class="page-categories" data-page="about"></div>
+        </section>
+
+        <section class="category-section" id="product">
+            <div class="section-head">
+                <h2>PRODUCT</h2>
+                <p data-section-desc="product">A selection of projects focused on use, ergonomics, and materiality.</p>
+            </div>
+            <div class="page-categories" data-page="product"></div>
+        </section>
+
+        <section class="category-section" id="industrial">
+            <div class="section-head">
+                <h2>INDUSTRIAL</h2>
+                <p data-section-desc="industrial">Prototyping, volumes, and manufacturing constraints.</p>
+            </div>
+            <div class="page-categories" data-page="industrial"></div>
+        </section>
+
+        <section class="category-section" id="graphic">
+            <div class="section-head">
+                <h2>GRAPHIC</h2>
+                <p data-section-desc="graphic">Visual identities, editorial systems, and graphic compositions.</p>
+            </div>
+            <div class="page-categories" data-page="graphic"></div>
+        </section>
+
+        <section class="category-section" id="craft">
+            <div class="section-head">
+                <h2>CRAFT</h2>
+                <p data-section-desc="craft">Material explorations, gestures, and making.</p>
+            </div>
+            <div class="page-categories" data-page="craft"></div>
+        </section>
+    </main>
+
+    <div id="adminPanel">
+        <h3 class="admin-title">SETTINGS</h3>
+        <p class="admin-caption">Enter credentials to manage projects.</p>
+        <input type="password" id="adminPass" placeholder="Password">
+        <button class="admin-btn" onclick="checkAdmin()">UNLOCK</button>
+
+        <div id="adminTools" class="admin-tools">
+            <p class="admin-section">Project Manager</p>
+            <label class="admin-label" for="adminPage">Section</label>
+            <select id="adminPage">
+                <option value="about">About</option>
+                <option value="craft">Craft</option>
+                <option value="product">Product</option>
+                <option value="industrial">Industrial</option>
+                <option value="graphic">Graphic</option>
+            </select>
+
+            <label class="admin-label" for="adminTitle">Project Title</label>
+            <input type="text" id="adminTitle" placeholder="Project Title">
+
+            <label class="admin-label" for="adminTag">Tag</label>
+            <input type="text" id="adminTag" placeholder="Material · System · 2024">
+
+            <label class="admin-label" for="adminYear">Year</label>
+            <input type="text" id="adminYear" placeholder="2024">
+
+            <label class="admin-label" for="adminRole">Role</label>
+            <input type="text" id="adminRole" placeholder="Designer · Researcher">
+
+            <label class="admin-label" for="adminKeywords">Keywords (comma separated)</label>
+            <input type="text" id="adminKeywords" placeholder="Material, Typology, Prototype">
+
+            <label class="admin-label" for="adminLong">Long Description</label>
+            <textarea id="adminLong" placeholder="Long description"></textarea>
+
+            <label class="admin-label" for="adminCoverUrl">Cover Image URL</label>
+            <input type="text" id="adminCoverUrl" placeholder="https://...">
+
+            <label class="admin-label" for="adminCoverFile">Or upload cover image</label>
+            <input type="file" id="adminCoverFile" accept="image/png,image/jpeg">
+
+            <label class="admin-label" for="adminGalleryUrls">Gallery Image URLs (one per line)</label>
+            <textarea id="adminGalleryUrls" placeholder="https://..."></textarea>
+
+            <label class="admin-label" for="adminGalleryFiles">Or upload gallery images</label>
+            <input type="file" id="adminGalleryFiles" accept="image/png,image/jpeg" multiple>
+
+            <label class="admin-label" for="adminLinks">Links (one per line: label | url)</label>
+            <textarea id="adminLinks" placeholder="Project page | https://..."></textarea>
+
+            <div class="admin-actions">
+                <button class="standard" id="adminAddBtn">SAVE PROJECT</button>
+                <button class="standard admin-cancel" id="adminCancelBtn" type="button">CANCEL EDIT</button>
+            </div>
+
+            <p class="admin-section">Section Descriptions</p>
+            <label class="admin-label" for="descAbout">About description</label>
+            <textarea id="descAbout" placeholder="About description"></textarea>
+
+            <label class="admin-label" for="descProduct">Product description</label>
+            <textarea id="descProduct" placeholder="Product description"></textarea>
+
+            <label class="admin-label" for="descIndustrial">Industrial description</label>
+            <textarea id="descIndustrial" placeholder="Industrial description"></textarea>
+
+            <label class="admin-label" for="descGraphic">Graphic description</label>
+            <textarea id="descGraphic" placeholder="Graphic description"></textarea>
+
+            <label class="admin-label" for="descCraft">Craft description</label>
+            <textarea id="descCraft" placeholder="Craft description"></textarea>
+
+            <div class="admin-actions">
+                <button class="standard" id="adminSaveDescriptions" type="button">SAVE DESCRIPTIONS</button>
+            </div>
+
+            <div class="admin-list" id="adminList"></div>
+        </div>
+        <button class="admin-close" onclick="closeAdmin()">CLOSE</button>
+    </div>
+
+    <script src="app.js" onload="document.body.setAttribute('data-js','loaded')"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial · Capucine's Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <span class="brand-label">CREATIVE PORTFOLIO</span>
+            <span class="brand-title">WELCOME TO CAPUCINE'S PORTFOLIO</span>
+        </div>
+        <nav class="site-nav">
+            <a href="about.html">ABOUT</a>
+            <a href="mailto:hello@capucine.com">CONTACT</a>
+            <button class="admin-trigger" onclick="openAdmin()">SETTINGS</button>
+        </nav>
+    </header>
+
+    <a class="back-arrow" href="index.html" aria-label="Back to home">←</a>
+
+    <main class="page">
+        <section class="page-hero">
+            <h1>INDUSTRIAL</h1>
+            <p>Prototyping, volumes, and manufacturing constraints. Content in progress.</p>
+        </section>
+
+        <div id="pageCategories" data-page="industrial"></div>
+    </main>
+
+    <div id="adminPanel">
+        <h3 class="admin-title">SETTINGS</h3>
+        <p class="admin-caption">Enter credentials to manage projects.</p>
+        <input type="password" id="adminPass" placeholder="Password">
+        <button class="admin-btn" onclick="checkAdmin()">UNLOCK</button>
+
+        <div id="adminTools" class="admin-tools">
+            <p class="admin-section">Project Manager</p>
+            <label class="admin-label" for="adminPage">Page</label>
+            <select id="adminPage">
+                <option value="craft">Craft</option>
+                <option value="product">Product</option>
+                <option value="graphic">Graphic</option>
+                <option value="industrial">Industrial</option>
+            </select>
+
+            <label class="admin-label" for="adminGroup">Category</label>
+            <select id="adminGroup"></select>
+
+            <label class="admin-label" for="adminTitle">Project Title</label>
+            <input type="text" id="adminTitle" placeholder="Project Title">
+
+            <label class="admin-label" for="adminPill">Descriptor (pill)</label>
+            <input type="text" id="adminPill" placeholder="Textures · Natural pigments">
+
+            <label class="admin-label" for="adminDesc">Description</label>
+            <textarea id="adminDesc" placeholder="Short description"></textarea>
+
+            <label class="admin-label" for="adminImageUrl">Image URLs (one per line)</label>
+            <textarea id="adminImageUrl" placeholder="https://..."></textarea>
+
+            <label class="admin-label" for="adminImageFile">Or upload images</label>
+            <input type="file" id="adminImageFile" accept="image/*" multiple>
+
+            <div class="admin-actions">
+                <button class="standard" id="adminAddBtn">SAVE PROJECT</button>
+                <button class="standard admin-cancel" id="adminCancelBtn" type="button">CANCEL EDIT</button>
+            </div>
+
+            <div class="admin-list" id="adminList"></div>
+        </div>
+        <button class="admin-close" onclick="closeAdmin()">CLOSE</button>
+    </div>
+
+    <script src="app.js" onload="document.body.setAttribute('data-js','loaded')"></script>
+</body>
+</html>
