@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'capucine_projects_v2';
+const CONTENT_PATH = '/content/projects.json';
 const IMAGE_DB_NAME = 'capucine_images_v1';
 const IMAGE_STORE = 'images';
 let imageDbPromise = null;
@@ -20,21 +21,7 @@ const BASE_DATA = {
     craft: {
         label: 'Craft',
         categories: [
-            {
-                id: 'textiles',
-                title: 'TEXTILES & SURFACES',
-                items: []
-            },
-            {
-                id: 'ceramics',
-                title: 'CERAMICS & OBJECTS',
-                items: []
-            },
-            {
-                id: 'paper',
-                title: 'PAPER & DETAILS',
-                items: []
-            }
+            { id: 'craft-projects', title: 'CRAFT PROJECTS', items: [] }
         ]
     },
     product: {
@@ -82,6 +69,8 @@ const descGraphicInput = document.getElementById('descGraphic');
 const descCraftInput = document.getElementById('descCraft');
 const adminSaveDescriptions = document.getElementById('adminSaveDescriptions');
 
+let cachedProjects = null;
+
 let editingProjectId = null;
 
 function cloneBase() {
@@ -89,11 +78,14 @@ function cloneBase() {
 }
 
 function loadProjects() {
+    if (cachedProjects) return cachedProjects;
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
             const parsed = JSON.parse(stored);
-            return mergeWithBase(parsed);
+            const merged = mergeWithBase(parsed);
+            cachedProjects = merged;
+            return merged;
         }
     } catch (err) {
         console.warn('Could not parse stored projects', err);
@@ -101,16 +93,40 @@ function loadProjects() {
 
     const base = cloneBase();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(base));
+    cachedProjects = base;
     return base;
 }
 
 function saveProjects(data) {
+    cachedProjects = data;
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch (err) {
         console.error('Save failed', err);
         alert('Saving failed (storage limit). Try using smaller images or fewer files.');
     }
+}
+
+async function fetchRemoteProjects() {
+    try {
+        const res = await fetch(CONTENT_PATH, { cache: 'no-store' });
+        if (!res.ok) return null;
+        return await res.json();
+    } catch (err) {
+        return null;
+    }
+}
+
+async function initProjects() {
+    const remote = await fetchRemoteProjects();
+    if (remote) {
+        const merged = mergeWithBase(remote);
+        saveProjects(merged);
+    } else {
+        loadProjects();
+    }
+    renderAllCategories();
+    renderSectionDescriptions();
 }
 
 function mergeWithBase(data) {
@@ -285,7 +301,10 @@ function normalizeDataImages(data) {
         if (!page || !Array.isArray(page.categories)) return;
         page.categories.forEach(category => {
             if (!Array.isArray(category.items)) return;
-            category.items.forEach(item => {
+            category.items.forEach((item, itemIndex) => {
+                if (!item.id) {
+                    item.id = `${category.id}-${itemIndex}`;
+                }
                 const legacyImages = Array.isArray(item.images) ? item.images : [];
                 const legacySingle = item.image ? [item.image] : [];
                 const merged = [...legacyImages, ...legacySingle]
@@ -769,10 +788,10 @@ function initAdmin() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    renderAllCategories();
-    renderSectionDescriptions();
-    initAdmin();
-    migrateLegacyDataUrls();
+    initProjects().then(() => {
+        initAdmin();
+        migrateLegacyDataUrls();
+    });
 
     const backArrow = document.querySelector('.back-arrow');
     if (backArrow) {
